@@ -1,0 +1,94 @@
+{
+  "metadata": {
+    "title": "Antigravity Tech",
+    "description": "Votre destination ultime pour l'assemblage et la conception des PC gaming et stations de travail les plus puissants, fournissant toutes les pièces détachées et accessoires authentiques en Arabie Saoudite"
+  },
+  "nav": {
+    "home": "Accueil",
+    "store": "Boutique",
+    "gamingPcs": "PC Gaming",
+    "laptops": "Portables",
+    "screens": "Écrans",
+    "searchPlaceholder": "Rechercher un appareil, carte graphique...",
+    "cart": "Panier",
+    "tech": "Tech"
+  },
+  "hero": {
+    "badge": "Soldes d'Été : Jusqu'à -25%",
+    "title": "Entrez dans le monde de la puissance absolue du jeu PC et du modding",
+    "description": "Construisez votre machine de rêve ou choisissez parmi notre sélection de PC pré-assemblés surpuissants prêts pour le gaming et la création de contenu, avec livraison gratuite et garantie authentique de deux ans.",
+    "shopNow": "Acheter Maintenant",
+    "gamingPcs": "PC Gaming Prêts",
+    "availableNow": "RTX 4090 Disponible Maintenant"
+  },
+  "features": {
+    "techSupport": {
+      "title": "Support Technique Spécialisé",
+      "description": "Une équipe complète pour vous aider avec l'assemblage"
+    },
+    "originalParts": {
+      "title": "Pièces 100% Originales",
+      "description": "Nous sommes des distributeurs agréés des meilleures marques"
+    },
+    "warranty": {
+      "title": "Garantie Authentique 2 Ans",
+      "description": "Remplacement direct des pièces défectueuses"
+    },
+    "shipping": {
+      "title": "Livraison Rapide & Sécurisée",
+      "description": "Livraison gratuite pour les commandes supérieures à 50 SAR"
+    }
+  },
+  "categories": {
+    "title": "Parcourir les Catégories Principales",
+    "gamingPcs": "PC Gaming",
+    "laptops": "Ordinateurs Portables",
+    "monitors": "Écrans",
+    "accessories": "Accessoires",
+    "shopNow": "Acheter"
+  },
+  "products": {
+    "featuredTitle": "Produits les Plus Vendus & Populaires",
+    "viewAll": "Voir tous les produits en boutique",
+    "addToCart": "Ajouter au Panier",
+    "discount": "RÉD",
+    "sar": "SAR",
+    "oldPrice": "SAR"
+  },
+  "footer": {
+    "about": {
+      "title": "Antigravity Tech",
+      "description": "Votre destination ultime pour l'assemblage et la conception des PC gaming et stations de travail les plus puissants, fournissant toutes les pièces détachées et accessoires authentiques en Arabie Saoudite."
+    },
+    "quickLinks": {
+      "title": "Liens Rapides",
+      "home": "Accueil",
+      "store": "Boutique",
+      "gamingPcs": "PC Gaming",
+      "laptops": "Portables"
+    },
+    "categories": {
+      "title": "Catégories Principales",
+      "screens": "Écrans Professionnels",
+      "accessories": "Accessoires Gaming",
+      "pcParts": "Cartes Graphiques",
+      "components": "Processeurs & Cartes Mères"
+    },
+    "contact": {
+      "title": "Contactez-Nous",
+      "phone": "+966 50 000 0000",
+      "email": "support@antigravity-tech.com",
+      "address": "Riyad, Quartier Al Olaya, Route du Roi Fahd, Royaume d'Arabie Saoudite"
+    },
+    "payment": "Moyens de Paiement Sécurisés",
+    "copyright": "© 2026 Antigravity Tech. Tous droits réservés."
+  },
+  "cart": {
+    "title": "Panier d'Achat",
+    "empty": "Votre panier est vide",
+    "remove": "Supprimer",
+    "total": "Total",
+    "checkout": "Commander",
+    "close": "Fermer"
+  }
+}

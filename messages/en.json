@@ -1,0 +1,94 @@
+{
+  "metadata": {
+    "title": "Antigravity Tech",
+    "description": "Your ultimate destination for building and designing the most powerful gaming PCs and workstations, providing all genuine spare parts and accessories in Saudi Arabia"
+  },
+  "nav": {
+    "home": "Home",
+    "store": "Store",
+    "gamingPcs": "Gaming PCs",
+    "laptops": "Laptops",
+    "screens": "Screens",
+    "searchPlaceholder": "Search for a device, graphics card...",
+    "cart": "Cart",
+    "tech": "Tech"
+  },
+  "hero": {
+    "badge": "Summer Sale: Up to 25% off",
+    "title": "Enter the world of absolute power in PC gaming and modding",
+    "description": "Build your dream machine or choose from our curated selection of beastly pre-built PCs ready for gaming and content creation, with free shipping and a genuine two-year warranty.",
+    "shopNow": "Shop Products Now",
+    "gamingPcs": "Ready Gaming PCs",
+    "availableNow": "RTX 4090 Available Now in Stock"
+  },
+  "features": {
+    "techSupport": {
+      "title": "Specialized Tech Support",
+      "description": "A complete team to help you with assembly"
+    },
+    "originalParts": {
+      "title": "100% Original Parts",
+      "description": "We are authorized dealers for the best brands"
+    },
+    "warranty": {
+      "title": "Genuine 2-Year Warranty",
+      "description": "Direct replacement for defective parts"
+    },
+    "shipping": {
+      "title": "Fast & Secure Shipping",
+      "description": "Free shipping on orders over 50 SAR"
+    }
+  },
+  "categories": {
+    "title": "Browse Main Categories",
+    "gamingPcs": "Gaming PCs",
+    "laptops": "Laptops",
+    "monitors": "Monitors",
+    "accessories": "Accessories",
+    "shopNow": "Shop Now"
+  },
+  "products": {
+    "featuredTitle": "Best Selling & Popular Products",
+    "viewAll": "View all products in store",
+    "addToCart": "Add to Cart",
+    "discount": "OFF",
+    "sar": "SAR",
+    "oldPrice": "SAR"
+  },
+  "footer": {
+    "about": {
+      "title": "Antigravity Tech",
+      "description": "Your ultimate destination for building and designing the most powerful gaming PCs and workstations, providing all genuine spare parts and accessories in Saudi Arabia."
+    },
+    "quickLinks": {
+      "title": "Quick Links",
+      "home": "Home",
+      "store": "Store",
+      "gamingPcs": "Gaming PCs",
+      "laptops": "Laptops"
+    },
+    "categories": {
+      "title": "Main Categories",
+      "screens": "Professional Screens",
+      "accessories": "Gaming Accessories",
+      "pcParts": "Graphics Cards",
+      "components": "Processors & Motherboards"
+    },
+    "contact": {
+      "title": "Contact Us",
+      "phone": "+966 50 000 0000",
+      "email": "support@antigravity-tech.com",
+      "address": "Riyadh, Al Olaya District, King Fahd Road, Kingdom of Saudi Arabia"
+    },
+    "payment": "Secure Payment Methods",
+    "copyright": "© 2026 Antigravity Tech. All rights reserved."
+  },
+  "cart": {
+    "title": "Shopping Cart",
+    "empty": "Your cart is empty",
+    "remove": "Remove",
+    "total": "Total",
+    "checkout": "Checkout",
+    "close": "Close"
+  }
+}
