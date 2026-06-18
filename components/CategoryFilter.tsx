@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 interface Category {
   id: number;
-  attributes: { name: string; slug: string };
+  attributes?: { name: string; slug: string };
 }
 
 export default function CategoryFilter({ 
@@ -27,19 +27,26 @@ export default function CategoryFilter({
         الكل
       </Link>
       
-      {categories.map((category) => (
-        <Link
-          key={category.id}
-          href={`/shop?category=${category.attributes.slug}`}
-          className={`px-5 py-2.5 rounded-full text-sm font-semibold transition-all ${
-            activeCategory === category.attributes.slug
-              ? 'bg-blue-600 text-white shadow-md shadow-blue-500/25'
-              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-          }`}
-        >
-          {category.attributes.name}
-        </Link>
-      ))}
+      {categories.map((category) => {
+        // Smart extraction: handles both Strapi v4 (attributes) and v5 (flat)
+        const data = (category.attributes || category) as { name: string; slug: string };
+        const slug = data?.slug || '';
+        const name = data?.name || '';
+
+        return (
+          <Link
+            key={category.id}
+            href={`/shop?category=${slug}`}
+            className={`px-5 py-2.5 rounded-full text-sm font-semibold transition-all ${
+              activeCategory === slug
+                ? 'bg-blue-600 text-white shadow-md shadow-blue-500/25'
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+            }`}
+          >
+            {name}
+          </Link>
+        );
+      })}
     </div>
   );
 }

@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "title": "Antigravity Tech",
+    "title": "ByteHub",
     "description": "Votre destination ultime pour l'assemblage et la conception des PC gaming et stations de travail les plus puissants, fournissant toutes les pièces détachées et accessoires authentiques en Arabie Saoudite"
   },
   "nav": {
@@ -15,11 +15,18 @@
   },
   "hero": {
     "badge": "Soldes d'Été : Jusqu'à -25%",
-    "title": "Entrez dans le monde de la puissance absolue du jeu PC et du modding",
+    "titleLine1": "Un nouveau niveau de professionnalisme",
+    "titleLine2": "Plongez dans les moindres détails",
+    "titleLine3": "Des bêtes de jeu vous attendent",
     "description": "Construisez votre machine de rêve ou choisissez parmi notre sélection de PC pré-assemblés surpuissants prêts pour le gaming et la création de contenu, avec livraison gratuite et garantie authentique de deux ans.",
-    "shopNow": "Acheter Maintenant",
+    "shopNow": "Achetez maintenant",
     "gamingPcs": "PC Gaming Prêts",
-    "availableNow": "RTX 4090 Disponible Maintenant"
+    "availableNow": "RTX 4090 Disponible Maintenant",
+    "promoBanner": "Offre spéciale : Livraison gratuite sur les commandes sélectionnées",
+    "promoLink": "Voir plus",
+    "statProducts": "produits",
+    "statClients": "clients",
+    "statSatisfaction": "satisfaction client"
   },
   "features": {
     "techSupport": {
@@ -48,16 +55,21 @@
     "shopNow": "Acheter"
   },
   "products": {
-    "featuredTitle": "Produits les Plus Vendus & Populaires",
-    "viewAll": "Voir tous les produits en boutique",
+    "featuredTitle": "Produits les Plus Vendus",
+    "featuredSubtitle": "Choisissez le meilleur parmi ce que les professionnels sélectionnent",
+    "viewAll": "Voir Tous les Produits",
     "addToCart": "Ajouter au Panier",
     "discount": "RÉD",
     "sar": "SAR",
-    "oldPrice": "SAR"
+    "eur": "EUR",
+    "usd": "USD",
+    "dzd": "DZD",
+    "oldPrice": "SAR",
+    "currency": "Devise"
   },
   "footer": {
     "about": {
-      "title": "Antigravity Tech",
+      "title": "ByteHub",
       "description": "Votre destination ultime pour l'assemblage et la conception des PC gaming et stations de travail les plus puissants, fournissant toutes les pièces détachées et accessoires authentiques en Arabie Saoudite."
     },
     "quickLinks": {
@@ -81,7 +93,10 @@
       "address": "Riyad, Quartier Al Olaya, Route du Roi Fahd, Royaume d'Arabie Saoudite"
     },
     "payment": "Moyens de Paiement Sécurisés",
-    "copyright": "© 2026 Antigravity Tech. Tous droits réservés."
+    "copyright": "© 2024 ByteHub. Tous droits réservés.",
+    "privacyPolicy": "Politique de Confidentialité",
+    "termsConditions": "Conditions Générales",
+    "techSupport": "Support Technique"
   },
   "cart": {
     "title": "Panier d'Achat",

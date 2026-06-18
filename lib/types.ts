@@ -23,11 +23,13 @@ export interface StrapiImages {
   }> | null;
 }
 
+export interface StrapiDataItem<T> {
+  id: number;
+  attributes: T;
+}
+
 export interface StrapiCollectionResponse<T> {
-  data: Array<{
-    id: number;
-    attributes: T;
-  }>;
+  data: StrapiDataItem<T>[];
   meta: {
     pagination: {
       page: number;
@@ -39,10 +41,7 @@ export interface StrapiCollectionResponse<T> {
 }
 
 export interface StrapiSingleResponse<T> {
-  data: {
-    id: number;
-    attributes: T;
-  } | null;
+  data: StrapiDataItem<T> | null;
 }
 
 // ===== Strapi Blocks (Rich Text) =====
@@ -70,13 +69,13 @@ export interface Product {
   name: string;
   slug: string;
   price: number;
-  oldPrice?: number;
+  originalPrice?: number;
   description?: StrapiRichText;
   image?: StrapiImage;
   images?: StrapiImages;
-  featured?: boolean;
+  isFeatured?: boolean;
   isOffer?: boolean;
-  stock?: number;
+  quantite?: number;
   sku?: string;
   features?: Record<string, string | number | boolean>;
   rating?: number;

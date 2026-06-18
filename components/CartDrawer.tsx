@@ -3,7 +3,9 @@
 import { useCart } from '@/context/CartContext';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useTranslations, useLocale } from 'next-intl';
+import { useTranslations } from 'next-intl';
+import { useCountry } from '@/context/CountryContext';
+import { convertCurrency, formatCurrency, getCurrencyByCountry, getLocaleByCountry, type CurrencyCode } from '@/lib/currency';
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -13,7 +15,9 @@ interface CartDrawerProps {
 export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
   const { items, removeItem, total } = useCart();
   const t = useTranslations('products');
-  const locale = useLocale();
+  const { country } = useCountry();
+  const currency = getCurrencyByCountry(country) as CurrencyCode;
+  const currencyLocale = getLocaleByCountry(country);
   const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL ?? '';
 
   function resolveImageUrl(url: string | undefined): string {
@@ -21,8 +25,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
     return url.startsWith('http') || url.startsWith('/') ? url : `${STRAPI_URL}${url}`;
   }
 
-  // استخدام منطق مرن لتجنب خطأ Missing Message في حال عدم وجود المفاتيح في fr.json أو en.json
-  const currency = locale === 'fr' ? 'DZD' : (locale === 'ar' ? t('sar') : 'SAR');
+  const currencyValue = (price: number) => formatCurrency(convertCurrency(price, 'SAR', currency), currency, currencyLocale);
 
   return (
     <>
@@ -89,13 +92,13 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                             {name}
                           </h3>
                           <p className="text-blue-600 font-bold mt-1">
-                            {price.toLocaleString()} {currency} × {itemQuantity}
+                            {currencyValue(price)} × {itemQuantity}
                           </p>
                         </div>
                         
                         <div className="flex justify-between items-center mt-2">
                           <span className="text-xs text-gray-400">
-                            الإجمالي: {(price * itemQuantity).toLocaleString()} {currency}
+                            الإجمالي: {currencyValue(price * itemQuantity)}
                           </span>
                           <button 
                            
@@ -116,7 +119,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
               <div className="border-t border-gray-100 pt-4 mt-4">
                 <div className="flex justify-between text-xl font-bold mb-4 text-gray-900">
                   <span>المجموع:</span>
-                  <span className="text-blue-600">{total.toLocaleString()} {currency}</span>
+                  <span className="text-blue-600">{currencyValue(total)}</span>
                 </div>
                 <Link
                   href="/checkout"

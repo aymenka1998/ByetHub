@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "title": "Antigravity Tech",
+    "title": "ByteHub",
     "description": "Your ultimate destination for building and designing the most powerful gaming PCs and workstations, providing all genuine spare parts and accessories in Saudi Arabia"
   },
   "nav": {
@@ -15,11 +15,18 @@
   },
   "hero": {
     "badge": "Summer Sale: Up to 25% off",
-    "title": "Enter the world of absolute power in PC gaming and modding",
+    "titleLine1": "A new level of professionalism",
+    "titleLine2": "Immerse yourself in the finest details",
+    "titleLine3": "Gaming beasts are waiting for you",
     "description": "Build your dream machine or choose from our curated selection of beastly pre-built PCs ready for gaming and content creation, with free shipping and a genuine two-year warranty.",
     "shopNow": "Shop Products Now",
     "gamingPcs": "Ready Gaming PCs",
-    "availableNow": "RTX 4090 Available Now in Stock"
+    "availableNow": "RTX 4090 Available Now in Stock",
+    "promoBanner": "Special offer: Free shipping on selected orders",
+    "promoLink": "View more",
+    "statProducts": "products",
+    "statClients": "clients",
+    "statSatisfaction": "customer satisfaction"
   },
   "features": {
     "techSupport": {
@@ -48,16 +55,21 @@
     "shopNow": "Shop Now"
   },
   "products": {
-    "featuredTitle": "Best Selling & Popular Products",
-    "viewAll": "View all products in store",
+    "featuredTitle": "Best Selling Products",
+    "featuredSubtitle": "Choose the best from what professionals select",
+    "viewAll": "View All Products",
     "addToCart": "Add to Cart",
     "discount": "OFF",
     "sar": "SAR",
-    "oldPrice": "SAR"
+    "eur": "EUR",
+    "usd": "USD",
+    "dzd": "DZD",
+    "oldPrice": "SAR",
+    "currency": "Currency"
   },
   "footer": {
     "about": {
-      "title": "Antigravity Tech",
+      "title": "ByteHub",
       "description": "Your ultimate destination for building and designing the most powerful gaming PCs and workstations, providing all genuine spare parts and accessories in Saudi Arabia."
     },
     "quickLinks": {
@@ -81,7 +93,10 @@
       "address": "Riyadh, Al Olaya District, King Fahd Road, Kingdom of Saudi Arabia"
     },
     "payment": "Secure Payment Methods",
-    "copyright": "© 2026 Antigravity Tech. All rights reserved."
+    "copyright": "© 2024 ByteHub. All rights reserved.",
+    "privacyPolicy": "Privacy Policy",
+    "termsConditions": "Terms & Conditions",
+    "techSupport": "Tech Support"
   },
   "cart": {
     "title": "Shopping Cart",

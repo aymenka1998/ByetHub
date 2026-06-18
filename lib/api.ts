@@ -1,13 +1,27 @@
-const baseUrl = process.env.STRAPI_URL;
+const rawBaseUrl = process.env.STRAPI_URL || '';
 const API_TIMEOUT = 10000; // 10 second timeout
 const MAX_RETRIES = 2;
 
-if (!baseUrl) {
+const isServer = typeof window === 'undefined';
+
+const normalizedBaseUrl = rawBaseUrl
+  .replace(/\/admin\/?$/i, '')
+  .replace(/\/+$/, '');
+
+if (!normalizedBaseUrl && isServer) {
   throw new Error('Missing environment variable: STRAPI_URL');
 }
 
+function buildUrl(path: string) {
+  const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+  return new URL(normalizedPath, normalizedBaseUrl);
+}
+
 export async function fetchAPI<T>(path: string, options: RequestInit = {}): Promise<T> {
-  const url = new URL(`/api${path}`, baseUrl);
+  if (!isServer) {
+    throw new Error('Strapi API is not accessible from the browser. Falling back to mock data.');
+  }
+  const url = buildUrl(`/api${path}`);
   let lastError: Error | null = null;
 
   for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {

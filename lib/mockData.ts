@@ -72,8 +72,8 @@ export const mockProducts: StrapiDataItem<Product>[] = [
   {
     id: 1,
     attributes: {
-      name: "حاسوب الألعاب الخارق Antigravity RTX 4090 Monster",
-      slug: "antigravity-rtx-4090-monster",
+      name: "حاسوب الألعاب الخارق Byte Hub RTX 4090 Monster",
+      slug: "byte-hub-rtx-4090-monster",
       price: 12499,
       originalPrice: 13999, // Changed from oldPrice
       description: [
@@ -114,8 +114,8 @@ export const mockProducts: StrapiDataItem<Product>[] = [
   {
     id: 2,
     attributes: {
-      name: "حاسوب محمول للألعاب وصناع المحتوى Antigravity Pro Aero 16",
-      slug: "antigravity-pro-aero-16",
+      name: "حاسوب محمول للألعاب وصناع المحتوى Byte Hub Pro Aero 16",
+      slug: "byte-hub-pro-aero-16",
       price: 7899,
       originalPrice: 8499, // Changed from oldPrice
       description: [
@@ -156,8 +156,8 @@ export const mockProducts: StrapiDataItem<Product>[] = [
   {
     id: 3,
     attributes: {
-      name: "شاشة ألعاب منحنية فائقة العرض Antigravity Curved Ultrawide 34",
-      slug: "antigravity-curved-ultrawide-34",
+      name: "شاشة ألعاب منحنية فائقة العرض Byte Hub Curved Ultrawide 34",
+      slug: "byte-hub-curved-ultrawide-34",
       price: 2499,
       originalPrice: 2999, // Changed from oldPrice
       description: [
@@ -198,8 +198,8 @@ export const mockProducts: StrapiDataItem<Product>[] = [
   {
     id: 4,
     attributes: {
-      name: "لوحة مفاتيح ميكانيكية مضيئة Antigravity Neon Cyber Keyboard",
-      slug: "antigravity-neon-cyber-keyboard",
+      name: "لوحة مفاتيح ميكانيكية مضيئة Byte Hub Neon Cyber Keyboard",
+      slug: "byte-hub-neon-cyber-keyboard",
       price: 450,
       originalPrice: 550, // Changed from oldPrice
       description: [
@@ -240,8 +240,8 @@ export const mockProducts: StrapiDataItem<Product>[] = [
   {
     id: 5,
     attributes: {
-      name: "فأرة ألعاب لاسلكية فائقة الدقة Antigravity Swift RGB Mouse",
-      slug: "antigravity-swift-rgb-mouse",
+      name: "فأرة ألعاب لاسلكية فائقة الدقة Byte Hub Swift RGB Mouse",
+      slug: "byte-hub-swift-rgb-mouse",
       price: 299,
       originalPrice: 349, // Changed from oldPrice
       description: [

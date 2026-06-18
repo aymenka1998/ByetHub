@@ -1,11 +1,6 @@
-node_modules/
-.next/
-.env*.local
-dist/
-build/
 import { getProducts, getCategories } from '@/lib/products';
-import type { Category, Product } from '@/lib/types';
 import ProductCard from '@/components/ProductCard';
+import CategoryFilter from '@/components/CategoryFilter';
 
 interface ShopPageProps {
   params: Promise<{ locale: string }>;
@@ -22,13 +17,16 @@ export default async function ShopPage(props: ShopPageProps) {
   const categoriesResponse = await getCategories(locale);
   const productsResponse = await getProducts(locale, category, q);
 
-  const categories = categoriesResponse?.data || [];
+  const categories = (categoriesResponse?.data || []).filter(
+    (cat): cat is typeof cat & { attributes: NonNullable<typeof cat.attributes> } =>
+      cat?.attributes != null
+  );
   const products = productsResponse?.data || [];
 
   const activeCategory = categories.find(cat => cat.attributes.slug === category);
 
-  let pageTitle = activeCategory 
-    ? activeCategory.attributes.name 
+  let pageTitle = activeCategory
+    ? activeCategory.attributes.name
     : "تصفح كافة المنتجات";
 
   if (q) {
@@ -38,7 +36,9 @@ export default async function ShopPage(props: ShopPageProps) {
   return (
     <main className="max-w-7xl mx-auto px-4 py-12 text-right" dir="rtl">
       <h1 className="text-3xl font-bold mb-8">{pageTitle}</h1>
-      
+
+      <CategoryFilter categories={categories} activeCategory={category} />
+
       {products.length === 0 ? (
         <div className="text-center py-12 text-gray-500">
           لا توجد منتجات متوفرة في هذا القسم حالياً.

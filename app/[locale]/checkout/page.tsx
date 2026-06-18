@@ -2,11 +2,16 @@
 
 import { useState } from 'react';
 import { useCart } from '@/context/CartContext';
+import { useCountry } from '@/context/CountryContext';
+import { convertCurrency, formatCurrency, getCurrencyByCountry, getLocaleByCountry, type CurrencyCode } from '@/lib/currency';
 import Image from 'next/image';
 import Link from 'next/link';
 
 export default function CheckoutPage() {
   const { items, total, removeItem } = useCart();
+  const { country } = useCountry();
+  const currency = getCurrencyByCountry(country) as CurrencyCode;
+  const currencyLocale = getLocaleByCountry(country);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [orderNumber, setOrderNumber] = useState<number | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -14,6 +19,7 @@ export default function CheckoutPage() {
   // تحسين: تعريف تكلفة الشحن كمتغير ثابت
   const SHIPPING_COST = 25;
   const grandTotal = total + SHIPPING_COST;
+  const formatPrice = (amount: number) => formatCurrency(convertCurrency(amount, 'SAR', currency), currency, currencyLocale);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -87,7 +93,7 @@ export default function CheckoutPage() {
         </div>
         
         <h1 className="text-3xl font-black text-gray-900 mb-2">تم استلام طلبك بنجاح!</h1>
-        <p className="text-gray-500 font-semibold mb-6">رقم الطلب الخاص بك هو: <span className="text-blue-600 font-bold">#AG-{orderNumber}</span></p>
+        <p className="text-gray-500 font-semibold mb-6">رقم الطلب الخاص بك هو: <span className="text-blue-600 font-bold">#BH-{orderNumber}</span></p>
         
         <div className="bg-gray-50 rounded-2xl p-6 w-full text-right border border-gray-100 mb-8 space-y-3.5">
           <h3 className="font-bold text-gray-900 border-b border-gray-200 pb-2.5 mb-2">تفاصيل التوصيل:</h3>
@@ -317,7 +323,7 @@ export default function CheckoutPage() {
               type="submit"
               className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl transition-all shadow-md hover:shadow-lg active:scale-95 text-lg"
             >
-              إكمال الطلب - {grandTotal.toLocaleString('ar-SA')} ر.س
+              إكمال الطلب - {formatPrice(grandTotal)}
             </button>
           </form>
         </div>
@@ -359,7 +365,7 @@ export default function CheckoutPage() {
                     <div className="flex-1">
                       <h3 className="text-sm font-bold text-gray-800 line-clamp-1">{name}</h3>
                       <p className="text-xs text-gray-500 mt-0.5">الكمية: {castedItem.quantity}</p>
-                      <p className="text-sm font-bold text-blue-600 mt-1">{(price * castedItem.quantity).toLocaleString('ar-SA')} ر.س</p>
+                      <p className="text-sm font-bold text-blue-600 mt-1">{formatPrice(price * castedItem.quantity)}</p>
                     </div>
                   </div>
                 );
@@ -369,15 +375,15 @@ export default function CheckoutPage() {
             <div className="border-t border-gray-100 pt-4 space-y-3 text-sm font-semibold text-gray-600">
               <div className="flex justify-between">
                 <span>المجموع الفرعي:</span>
-                <span className="text-gray-900">{total.toLocaleString('ar-SA')} ر.س</span>
+                <span className="text-gray-900">{formatPrice(total)}</span>
               </div>
               <div className="flex justify-between">
                 <span>تكلفة الشحن والتوصيل:</span>
-                <span className="text-gray-900">{SHIPPING_COST.toLocaleString('ar-SA')} ر.س</span>
+                <span className="text-gray-900">{formatPrice(SHIPPING_COST)}</span>
               </div>
               <div className="flex justify-between text-lg font-black text-gray-900 border-t border-gray-100 pt-3">
                 <span>الإجمالي الكلي:</span>
-                <span className="text-blue-600">{grandTotal.toLocaleString('ar-SA')} ر.س</span>
+                <span className="text-blue-600">{formatPrice(grandTotal)}</span>
               </div>
             </div>
           </div>

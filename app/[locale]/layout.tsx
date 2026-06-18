@@ -2,6 +2,7 @@
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations } from 'next-intl/server';
 import { CartProvider } from '@/context/CartContext';
+import { CountryProvider } from '@/context/CountryContext';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import '@/app/globals.css';
@@ -34,11 +35,13 @@ export default async function LocaleLayout({
     <html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'}>
       <body className="font-sans antialiased bg-white">
         <NextIntlClientProvider messages={messages} locale={locale}>
-          <CartProvider>
-            <Navbar />
-            <main>{children}</main>
-            <Footer />
-          </CartProvider>
+          <CountryProvider>
+            <CartProvider>
+              <Navbar />
+              <main>{children}</main>
+              <Footer />
+            </CartProvider>
+          </CountryProvider>
         </NextIntlClientProvider>
       </body>
     </html>

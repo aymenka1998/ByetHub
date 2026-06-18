@@ -2,17 +2,23 @@
 
 import { useState } from 'react';
 import { useCart } from '@/context/CartContext';
-import { useTranslations, useLocale } from 'next-intl';
+import { useTranslations } from 'next-intl';
+import { useCountry } from '@/context/CountryContext';
+import { convertCurrency, formatCurrency, getCurrencyByCountry, getLocaleByCountry, type CurrencyCode } from '@/lib/currency';
+
+import type { Product, StrapiDataItem } from '@/lib/types';
 
 interface AddToCartButtonProps {
-  product: unknown; 
+  product: StrapiDataItem<Product> | unknown;
+  className?: string;
 }
 
-export default function AddToCartButton({ product }: AddToCartButtonProps) {
+export default function AddToCartButton({ product, className = '' }: AddToCartButtonProps) {
   const t = useTranslations('products');
-  const locale = useLocale();
+  const { country } = useCountry();
   const [quantity, setQuantity] = useState(1);
-  const currency = locale === 'fr' ? 'DZD' : (locale === 'ar' ? t('sar') : 'SAR');
+  const currency = getCurrencyByCountry(country) as CurrencyCode;
+  const currencyLocale = getLocaleByCountry(country);
   const { addItem } = useCart();
 
   // استبدال any بـ Record<string, unknown>
@@ -42,7 +48,7 @@ export default function AddToCartButton({ product }: AddToCartButtonProps) {
     
 
   return (
-    <div className="space-y-4">
+    <div className={`space-y-4 ${className}`.trim()}>
       <div className="flex items-center gap-4">
         <label className="font-semibold text-gray-700">الكمية:</label>
         <div className="flex items-center border border-gray-300 rounded-xl bg-gray-50 overflow-hidden shadow-sm">
@@ -73,7 +79,7 @@ export default function AddToCartButton({ product }: AddToCartButtonProps) {
         <svg className="w-6 h-6 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
         </svg>
-        {t('addToCart')} - {(price * quantity).toLocaleString()} {currency}
+        {t('addToCart')} - {formatCurrency(convertCurrency(price * quantity, 'SAR', currency), currency, currencyLocale)}
       </button>
     </div>
   );

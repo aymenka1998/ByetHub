@@ -5,9 +5,9 @@ import { usePathname, useRouter } from '@/i18n/routing';
 import { useState, useTransition } from 'react';
 
 const languages = [
-  { code: 'ar', label: 'العربية', flag: '🇸🇦', dir: 'rtl' },
-  { code: 'en', label: 'English', flag: '🇬🇧', dir: 'ltr' },
-  { code: 'fr', label: 'Français', flag: '🇫🇷', dir: 'ltr' },
+  { code: 'ar', label: 'العربية', dir: 'rtl' },
+  { code: 'en', label: 'English', dir: 'ltr' },
+  { code: 'fr', label: 'Français', dir: 'ltr' },
 ];
 
 export default function LanguageSwitcher() {
@@ -33,7 +33,6 @@ export default function LanguageSwitcher() {
         disabled={isPending}
         className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors text-sm font-medium"
       >
-        <span className="text-lg">{currentLang.flag}</span>
         <span className="hidden sm:inline">{currentLang.label}</span>
         <svg className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} 
              fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -53,7 +52,6 @@ export default function LanguageSwitcher() {
                   locale === lang.code ? 'bg-blue-50 text-blue-600 font-medium' : 'text-gray-700'
                 }`}
               >
-                <span className="text-lg">{lang.flag}</span>
                 <span>{lang.label}</span>
                 {locale === lang.code && (
                   <svg className="w-4 h-4 mr-auto" fill="currentColor" viewBox="0 0 20 20">

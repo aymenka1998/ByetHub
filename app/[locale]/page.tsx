@@ -5,20 +5,26 @@ import Categories from '@/components/Categories';
 import FeaturedProducts from '@/components/FeaturedProducts';
 import { getFeaturedProducts } from '@/lib/products';
 
-async function FeaturedProductsSection({ params }: { params: { locale: string } }) {
-  const productsRes = await getFeaturedProducts(params?.locale);
+async function FeaturedProductsSection({ locale }: { locale: string }) {
+  const productsRes = await getFeaturedProducts(locale);
   const products = productsRes.data || [];
   return <FeaturedProducts products={products} />;
 }
 
-export default function HomePage({ params }: { params: { locale: string } }) {
+interface HomePageProps {
+  params: Promise<{ locale: string }>;
+}
+
+export default async function HomePage({ params }: HomePageProps) {
+  const { locale } = await params;
+
   return (
     <>
       <Hero />
       <Features />
       <Categories />
       <Suspense fallback={<div className="h-64 flex items-center justify-center text-gray-400">جاري التحميل…</div>}>
-        <FeaturedProductsSection params={params} />
+        <FeaturedProductsSection locale={locale} />
       </Suspense>
     </>
   );
