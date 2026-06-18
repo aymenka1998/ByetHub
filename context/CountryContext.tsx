@@ -3,32 +3,19 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
 import { type CountryCode } from '@/lib/currency';
 
-const DEFAULT_COUNTRY: CountryCode = 'SA';
+const DEFAULT_COUNTRY: CountryCode = 'DZ';
 
 interface CountryContextValue {
   country: CountryCode;
-  setCountry: (country: CountryCode) => void;
 }
 
 const CountryContext = createContext<CountryContextValue | undefined>(undefined);
 
 export function CountryProvider({ children }: { children: ReactNode }) {
-  const [country, setCountryState] = useState<CountryCode>(DEFAULT_COUNTRY);
-
-  useEffect(() => {
-    const stored = window.localStorage.getItem('selectedCountry') as CountryCode | null;
-    if (stored && ['SA', 'US', 'FR', 'DZ'].includes(stored)) {
-      setCountryState(stored);
-    }
-  }, []);
-
-  const setCountry = (value: CountryCode) => {
-    setCountryState(value);
-    window.localStorage.setItem('selectedCountry', value);
-  };
+  const country: CountryCode = DEFAULT_COUNTRY;
 
   return (
-    <CountryContext.Provider value={{ country, setCountry }}>
+    <CountryContext.Provider value={{ country }}>
       {children}
     </CountryContext.Provider>
   );

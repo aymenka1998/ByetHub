@@ -23,24 +23,10 @@ const CURRENCY_LOCALES: Record<CurrencyCode, string> = {
   DZD: 'fr-DZ',
 };
 
-const CURRENCY_BY_COUNTRY: Record<CountryCode, CurrencyCode> = {
-  SA: 'SAR',
-  US: 'USD',
-  FR: 'EUR',
-  DZ: 'DZD',
-};
-
-const LOCALE_BY_COUNTRY: Record<CountryCode, string> = {
-  SA: 'ar-SA',
-  US: 'en-US',
-  FR: 'fr-FR',
-  DZ: 'fr-DZ',
-};
-
 export function convertCurrency(
   amount: number,
   fromCurrency: CurrencyCode = 'SAR',
-  toCurrency: CurrencyCode = 'SAR'
+  toCurrency: CurrencyCode = 'DZD'
 ): number {
   if (fromCurrency === toCurrency) {
     return amount;
@@ -67,12 +53,10 @@ export function formatCurrency(
   return `${formatted} ${symbol}`;
 }
 
-export function getCurrencyByCountry(country: string): CurrencyCode {
-  const normalized = country.toUpperCase().split('-')[0] as CountryCode;
-  return CURRENCY_BY_COUNTRY[normalized] || 'SAR';
+export function getCurrencyByCountry(_country: string): CurrencyCode {
+  return 'DZD';
 }
 
-export function getLocaleByCountry(country: string): string {
-  const normalized = country.toUpperCase().split('-')[0] as CountryCode;
-  return LOCALE_BY_COUNTRY[normalized] || 'ar-SA';
+export function getLocaleByCountry(_country: string): string {
+  return 'fr-DZ';
 }
