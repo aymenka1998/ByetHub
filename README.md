@@ -37,3 +37,28 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## إعداد Firebase
+
+اتبع الخطوات التالية لإكمال إعداد Firebase للتطبيق:
+
+1. افتح https://console.firebase.google.com وأنشئ مشروعًا جديدًا (أو استخدم مشروعًا موجودًا).
+2. في لوحة المشروع، أضف تطبيق ويب (Web app) واحصل على إعدادات التهيئة.
+3. فعّل Authentication → Sign-in method للطرق التي تريدها (مثلاً Google و Phone).
+4. انسخ قيم الإعدادات إلى ملف `.env.local` في جذر المشروع باستخدام المفاتيح التالية:
+
+	- `NEXT_PUBLIC_FIREBASE_API_KEY`
+	- `NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN`
+	- `NEXT_PUBLIC_FIREBASE_PROJECT_ID`
+	- `NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET`
+	- `NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID`
+	- `NEXT_PUBLIC_FIREBASE_APP_ID`
+
+5. (موجود مثال) استخدم الملف `.env.local.example` كمثال؛ لا تقم بتضمين المفاتيح الحقيقية في المستودع.
+6. أعد تشغيل الخادم أثناء التطوير:
+
+```bash
+npm run dev
+```
+
+ملاحظة: ملف التهيئة في المشروع موجود في `lib/firebase.ts` ويستخدم المتغيرات أعلاه.

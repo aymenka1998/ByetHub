@@ -2,7 +2,14 @@
 
 import { useState, useEffect } from 'react';
 import { auth, googleProvider, signInWithPopup, signInWithPhoneNumber, RecaptchaVerifier } from '@/lib/firebase';
+import type { ConfirmationResult, RecaptchaVerifier as RecaptchaVerifierType } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
+
+declare global {
+  interface Window {
+    recaptchaVerifier?: RecaptchaVerifierType;
+  }
+}
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -14,7 +21,7 @@ export default function AuthModal({ isOpen, onClose, locale }: AuthModalProps) {
   const router = useRouter();
   const [phoneNumber, setPhoneNumber] = useState('');
   const [verificationCode, setVerificationCode] = useState('');
-  const [confirmationResult, setConfirmationResult] = useState<any>(null);
+  const [confirmationResult, setConfirmationResult] = useState<ConfirmationResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [loginMethod, setLoginMethod] = useState<'selection' | 'phone'>('selection');
@@ -24,13 +31,13 @@ export default function AuthModal({ isOpen, onClose, locale }: AuthModalProps) {
       setTimeout(() => {
         const container = document.getElementById('recaptcha-container');
         if (container) {
-          try {
-            window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
-              size: 'invisible',
-            });
-          } catch (e) {
-            console.error('Recaptcha init error', e);
-          }
+              try {
+                window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+                  size: 'invisible',
+                });
+              } catch (e: unknown) {
+                console.error('Recaptcha init error', e);
+              }
         }
       }, 100);
     }
@@ -44,8 +51,8 @@ export default function AuthModal({ isOpen, onClose, locale }: AuthModalProps) {
       setError('');
       await signInWithPopup(auth, googleProvider);
       router.push(`/${locale}/track`);
-    } catch (error: any) {
-      setError(error.message || 'حدث خطأ أثناء تسجيل الدخول');
+    } catch (err: unknown) {
+      setError(getFirebaseErrorMessage(err, 'login'));
       setLoading(false);
     }
   };
@@ -69,11 +76,11 @@ export default function AuthModal({ isOpen, onClose, locale }: AuthModalProps) {
       setError('');
       const appVerifier = window.recaptchaVerifier;
       const formattedPhone = phoneNumber.startsWith('+') ? phoneNumber : `+213${phoneNumber.replace(/^0/, '')}`;
-      const confirmation = await signInWithPhoneNumber(auth, formattedPhone, appVerifier);
+      const confirmation = await signInWithPhoneNumber(auth, formattedPhone, appVerifier as RecaptchaVerifierType);
       setConfirmationResult(confirmation);
       setLoading(false);
-    } catch (error: any) {
-      setError(error.message || 'حدث خطأ في إرسال الكود');
+    } catch (err: unknown) {
+      setError(getFirebaseErrorMessage(err, 'sendCode'));
       setLoading(false);
     }
   };
@@ -83,12 +90,40 @@ export default function AuthModal({ isOpen, onClose, locale }: AuthModalProps) {
     try {
       setLoading(true);
       setError('');
+      if (!confirmationResult) {
+        setError('لم يتم إرسال كود التحقق');
+        setLoading(false);
+        return;
+      }
       await confirmationResult.confirm(verificationCode);
       router.push(`/${locale}/track`);
-    } catch (error: any) {
-      setError('كود التحقق غير صحيح');
+    } catch (err: unknown) {
+      setError(getFirebaseErrorMessage(err, 'verifyCode'));
       setLoading(false);
     }
+  };
+
+  const getFirebaseErrorMessage = (err: unknown, context: 'login' | 'sendCode' | 'verifyCode') => {
+    if (typeof err === 'object' && err !== null) {
+      const e = err as { code?: string; message?: string };
+      if (e.code === 'auth/operation-not-allowed') {
+        return 'طريقة تسجيل الدخول هذه غير مفعّلة على Firebase. فعّلها من Firebase Console → Authentication → Sign-in method.';
+      }
+      if (e.code === 'auth/invalid-phone-number') {
+        return 'رقم الهاتف غير صالح.';
+      }
+      if (e.code === 'auth/invalid-verification-code' || e.code === 'auth/code-expired') {
+        return 'كود التحقق غير صحيح أو منتهي الصلاحية.';
+      }
+      if (e.code === 'auth/too-many-requests') {
+        return 'تم إرسال الكثير من الطلبات. حاول لاحقًا.';
+      }
+      if (e.message) return e.message;
+    }
+    if (err instanceof Error) return err.message;
+    if (context === 'login') return 'حدث خطأ أثناء تسجيل الدخول';
+    if (context === 'sendCode') return 'حدث خطأ في إرسال كود التحقق';
+    return 'حدث خطأ في التحقق';
   };
 
   return (

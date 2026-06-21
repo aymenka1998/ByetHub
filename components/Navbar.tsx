@@ -6,6 +6,7 @@ import { useState, useEffect, useRef } from 'react';
 import LanguageSwitcher from './LanguageSwitcher';
 import CountrySwitcher from './CountrySwitcher';
 import { useCart } from '@/context/CartContext';
+import { useCompare } from '@/context/CompareContext';
 import { useCountry } from '@/context/CountryContext';
 import CartDrawer from './CartDrawer';
 import { getProducts } from '@/lib/products';
@@ -16,6 +17,7 @@ export default function Navbar() {
   const t = useTranslations('nav');
   const locale = useLocale();
   const { country } = useCountry();
+  const { compareItems } = useCompare();
   const currency = getCurrencyByCountry(country) as CurrencyCode;
   const currencyLocale = getLocaleByCountry(country);
   const router = useRouter();
@@ -183,6 +185,22 @@ export default function Navbar() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
               </svg>
             </button>
+
+            {/* Compare */}
+            <Link 
+              href="/compare"
+              className="relative p-2 hover:bg-white/[0.07] rounded-xl transition-colors"
+              aria-label="المقارنة"
+            >
+              <svg className="w-5 h-5 text-white/60 hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+              </svg>
+              {compareItems.length > 0 && (
+                <span className="absolute -top-1 -right-1 w-5 h-5 bg-gradient-to-br from-purple-400 to-pink-600 text-white text-xs rounded-full flex items-center justify-center font-bold shadow-[0_0_10px_rgba(192,132,252,0.5)]">
+                  {compareItems.length}
+                </span>
+              )}
+            </Link>
 
             {/* Cart */}
             <button 

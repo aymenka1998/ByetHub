@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import AddToCartButton from '@/components/AddToCartButton';
 import CurrencyPrice from '@/components/CurrencyPrice';
+import CompareButton from '@/components/CompareButton';
 import { Star, Heart, ArrowRightLeft } from 'lucide-react';
 
 interface PageProps { params: Promise<{ locale: string; slug: string }>; }
@@ -168,9 +169,7 @@ export default async function ProductPage(props: PageProps) {
               <button className="flex-1 border border-gray-700 hover:border-cyan-500/50 hover:bg-cyan-900/10 text-gray-300 py-3 rounded-lg flex items-center justify-center gap-2 transition-all">
                 أضف للمفضلة <Heart className="w-5 h-5" />
               </button>
-              <button className="flex-1 border border-gray-700 hover:border-cyan-500/50 hover:bg-cyan-900/10 text-gray-300 py-3 rounded-lg flex items-center justify-center gap-2 transition-all">
-                مقارنة <ArrowRightLeft className="w-5 h-5" />
-              </button>
+              <CompareButton product={productItem} className="flex-1 py-3 rounded-lg" />
             </div>
           </div>
 

@@ -3,6 +3,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations } from 'next-intl/server';
 import { CartProvider } from '@/context/CartContext';
 import { CountryProvider } from '@/context/CountryContext';
+import { CompareProvider } from '@/context/CompareContext';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import '@/app/globals.css';
@@ -37,9 +38,11 @@ export default async function LocaleLayout({
         <NextIntlClientProvider messages={messages} locale={locale}>
           <CountryProvider>
             <CartProvider>
-              <Navbar />
-              <main>{children}</main>
-              <Footer />
+              <CompareProvider>
+                <Navbar />
+                <main>{children}</main>
+                <Footer />
+              </CompareProvider>
             </CartProvider>
           </CountryProvider>
         </NextIntlClientProvider>
