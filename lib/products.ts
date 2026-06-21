@@ -161,6 +161,29 @@ export async function getFeaturedProducts(locale: string): Promise<StrapiCollect
 // Alias used by category pages
 export const getProductsByCategory = (locale: string, slug: string) => getProducts(locale, slug);
 
+export async function getSaleProducts(locale: string): Promise<StrapiCollectionResponse<Product>> {
+  try {
+    const activeLocale = getSafeLocale(locale);
+    const query = new URLSearchParams({
+      'filters[isOffer][$eq]': 'true',
+      'populate': '*',
+      'locale': activeLocale
+    });
+    
+    const res = await fetchAPI<StrapiCollectionResponse<Product>>(`/products?${query.toString()}`);
+    if (res && res.data && res.data.length > 0) {
+      return res;
+    }
+    throw new Error('No sale products found in Strapi');
+  } catch (error) {
+    const errorMsg = error instanceof Error ? error.message : String(error);
+    console.warn('[getSaleProducts] ⚠️ Strapi API failed or returned empty. Falling back to local mock sale products. Error:', errorMsg);
+    
+    const sales = mockProducts.filter(p => p.attributes.isOffer === true || (p.attributes.originalPrice && p.attributes.originalPrice > p.attributes.price));
+    return mockResponse(sales);
+  }
+}
+
 export async function getCategories(locale: string): Promise<StrapiCollectionResponse<Category>> {
   try {
     const activeLocale = getSafeLocale(locale);

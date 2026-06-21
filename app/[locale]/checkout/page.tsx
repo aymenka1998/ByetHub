@@ -6,6 +6,8 @@ import { useCountry } from '@/context/CountryContext';
 import { convertCurrency, formatCurrency, getCurrencyByCountry, getLocaleByCountry, type CurrencyCode } from '@/lib/currency';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
+import AuthModal from '@/components/AuthModal';
 
 const ALGERIA_WILAYAS = [
   'أدرار', 'الشلف', 'الأغواط', 'أم البواقي', 'باتنة', 'بجاية', 'بسكرة', 'بشار',
@@ -24,8 +26,11 @@ export default function CheckoutPage() {
   const currency = getCurrencyByCountry(country) as CurrencyCode;
   const currencyLocale = getLocaleByCountry(country);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
   const [orderNumber, setOrderNumber] = useState<number | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const params = useParams();
+  const locale = (params?.locale as string) || 'ar';
 
   const SHIPPING_COST = 25;
   const grandTotal = total + SHIPPING_COST;
@@ -84,6 +89,7 @@ export default function CheckoutPage() {
 
     setOrderNumber(Math.floor(100000 + Math.random() * 900000));
     setIsSubmitted(true);
+    setShowAuthModal(true);
     items.forEach((item) => removeItem(item.id));
   };
 
@@ -136,6 +142,7 @@ export default function CheckoutPage() {
         >
           العودة للرئيسية
         </Link>
+        <AuthModal isOpen={showAuthModal} onClose={() => setShowAuthModal(false)} locale={locale} />
       </main>
     );
   }

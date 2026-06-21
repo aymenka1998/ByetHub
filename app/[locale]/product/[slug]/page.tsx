@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import AddToCartButton from '@/components/AddToCartButton';
 import CurrencyPrice from '@/components/CurrencyPrice';
+import { Star, Heart, ArrowRightLeft } from 'lucide-react';
 
 interface PageProps { params: Promise<{ locale: string; slug: string }>; }
 
@@ -56,68 +57,125 @@ export default async function ProductPage(props: PageProps) {
   );
 
   return (
-    <main className="min-h-screen bg-gray-950 text-white px-4 py-12" dir="rtl">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+    <main className="min-h-screen relative text-white overflow-hidden py-16" dir="rtl">
+      {/* Grid background */}
+      <div className="absolute inset-0 z-[-1] bg-[#060B18] bg-[linear-gradient(to_right,#112130_1px,transparent_1px),linear-gradient(to_bottom,#112130_1px,transparent_1px)] bg-[size:3rem_3rem]"></div>
+      
+      <div className="max-w-[1400px] w-full mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
         
-        {/* الجانب الأيسر: معلومات المنتج */}
-        <div className="space-y-6">
-          <div className="text-sm text-cyan-400 font-mono tracking-widest uppercase">
-            {sku ? `SKU: ${sku}` : 'منتج تقني'}
-          </div>
-          <h1 className="text-5xl font-extrabold leading-tight">{name}</h1>
-          
-          <div className="flex items-center gap-6">
-            <span className="text-4xl font-bold text-white"><CurrencyPrice amount={price} /></span>
-            {hasDiscount && (
-              <span className="text-xl text-gray-500 line-through decoration-red-500"><CurrencyPrice amount={originalPrice} /></span>
-            )}
+        {/* Child 1: Product Image (Right side in RTL) */}
+        <div className="flex flex-col gap-6 w-full">
+          <div className="border border-cyan-900/50 bg-[#0a1120]/80 rounded-xl overflow-hidden backdrop-blur-sm relative shadow-2xl shadow-cyan-900/10">
+            {/* Top Bar matching image */}
+            <div className="bg-[#0f192c] border-b border-cyan-900/50 p-3 flex flex-wrap justify-between items-center text-xs font-mono text-cyan-400">
+              <div className="flex items-center gap-2">
+                <span className="font-bold">ByteHub_STATUS::OPTIMAL</span>
+                <span className="text-gray-500">{'->'} graphique...</span>
+              </div>
+              <div className="flex gap-4 hidden sm:flex text-gray-400">
+                <span className="hover:text-cyan-400 cursor-pointer transition-colors">Accueil</span>
+                <span className="hover:text-cyan-400 cursor-pointer transition-colors">Boutique</span>
+                <span className="hover:text-cyan-400 cursor-pointer transition-colors">PC Gaming</span>
+                <span className="hover:text-cyan-400 cursor-pointer transition-colors">Portables</span>
+                <span className="hover:text-cyan-400 cursor-pointer transition-colors">Ecran</span>
+              </div>
+            </div>
+            <div className="p-4 flex justify-between items-center text-xs font-mono text-cyan-500 border-b border-cyan-900/30 bg-[#0d1424]">
+               <span>[ THERMAL_LOAD: 34% ]</span>
+            </div>
+
+            {/* Image Container */}
+            <div className="p-8 relative flex items-center justify-center min-h-[450px]">
+              {hasDiscount && (
+                <div className="absolute top-4 right-4 bg-red-500/90 text-white px-6 py-2 rounded text-xl font-bold z-10 shadow-lg" style={{ clipPath: 'polygon(10% 0, 100% 0, 90% 100%, 0% 100%)' }}>
+                  خصم {discountPercent}%
+                </div>
+              )}
+              <Image
+                src={mainImageUrl}
+                alt={name}
+                width={800}
+                height={600}
+                className="object-contain drop-shadow-[0_0_40px_rgba(34,211,238,0.15)] hover:scale-105 transition-transform duration-500"
+                sizes="(max-width: 768px) 100vw, 800px"
+                unoptimized
+                priority
+              />
+              <div className="absolute bottom-4 left-4 text-xs font-mono text-cyan-500 text-left">
+                <div>[ SYNC_ACTIVE: RGB_CONTROLLER ]</div>
+                <div>[ FPS_BOOST: ENABLED ]</div>
+              </div>
+            </div>
           </div>
 
-          <div className="prose prose-invert max-w-none text-gray-300">
+          {/* Tech Specs tags */}
+          <div className="flex flex-wrap gap-4 justify-center mt-2">
+             <div className="border border-gray-600 px-6 py-2 bg-transparent text-gray-300 font-mono text-sm tracking-wider uppercase">64GB DDR5</div>
+             <div className="border border-gray-600 px-6 py-2 bg-transparent text-gray-300 font-mono text-sm tracking-wider uppercase">CORE I9 14900K</div>
+             <div className="border border-gray-600 px-6 py-2 bg-transparent text-gray-300 font-mono text-sm tracking-wider uppercase">RTX 4090 READY</div>
+          </div>
+        </div>
+
+        {/* Child 2: Details (Left side in RTL) */}
+        <div className="flex flex-col items-start text-right w-full gap-8">
+          
+          {/* Top row: Tag and Stars */}
+          <div className="flex justify-between w-full items-center">
+             <div className="text-cyan-400 border border-cyan-400/30 bg-cyan-900/20 px-4 py-1.5 rounded text-sm font-mono tracking-widest flex-shrink-0">
+               {sku ? sku : 'منتج تقني'}
+             </div>
+             <div className="flex gap-1.5 text-cyan-400">
+               {[...Array(5)].map((_, i) => (
+                 <Star key={i} className="w-6 h-6 fill-cyan-400 drop-shadow-[0_0_5px_rgba(34,211,238,0.5)]" />
+               ))}
+             </div>
+          </div>
+
+          {/* Title */}
+          <h1 className="text-5xl lg:text-7xl font-bold uppercase tracking-tight drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
+            {name}
+          </h1>
+
+          {/* Price */}
+          <div className="flex items-center gap-6 w-full justify-start">
+             <span className="text-5xl lg:text-6xl font-bold text-cyan-400 drop-shadow-[0_0_20px_rgba(34,211,238,0.4)]">
+               <CurrencyPrice amount={price} />
+             </span>
+             {hasDiscount && (
+               <span className="text-2xl text-gray-500 line-through decoration-gray-600">
+                 <CurrencyPrice amount={originalPrice} />
+               </span>
+             )}
+          </div>
+
+          {/* Description */}
+          <div className="prose prose-invert max-w-none text-gray-300 leading-relaxed text-right font-sans text-lg">
             <BlocksRenderer content={description as BlocksContent} />
           </div>
 
-          {/* زر الإضافة */}
-          <div className="pt-6">
-            <AddToCartButton
-              product={productItem}
-              className="w-full bg-cyan-500 hover:bg-cyan-400 text-black font-bold py-4 rounded-lg transition-all transform hover:scale-[1.02]"
-            />
+          {/* Feature Tags list */}
+          <div className="flex flex-col gap-3 font-mono text-cyan-200/70 text-sm tracking-widest uppercase text-center w-full my-2">
+            <div>| TEMPERED GLASS |  | ARGB LIGHTING |</div>
+            <div>| TOOL-LESS DESIGN |  | LIQUID COOLING SUPPORT |</div>
           </div>
-        </div>
 
-        {/* الجانب الأيمن: الصورة */}
-        <div className="bg-gray-900/50 rounded-3xl p-8 border border-gray-800 relative flex items-center justify-center">
-          <Image
-            src={mainImageUrl}
-            alt={name}
-            width={600}
-            height={600}
-            className="object-contain"
-            sizes="(max-width: 768px) 100vw, 600px"
-            unoptimized
-            priority
-          />
-          {hasDiscount && (
-            <span className="absolute top-6 left-6 bg-red-600 px-4 py-2 rounded-lg text-sm font-bold shadow-lg">خصم {discountPercent}%</span>
-          )}
+          {/* Actions Box */}
+          <div className="w-full bg-[#0a1120]/80 border border-cyan-900/50 p-6 rounded-xl flex flex-col gap-6 backdrop-blur-sm shadow-xl shadow-cyan-900/5">
+            <AddToCartButton product={productItem} />
+
+            {/* Wishlist & Compare */}
+            <div className="flex gap-4 w-full mt-2">
+              <button className="flex-1 border border-gray-700 hover:border-cyan-500/50 hover:bg-cyan-900/10 text-gray-300 py-3 rounded-lg flex items-center justify-center gap-2 transition-all">
+                أضف للمفضلة <Heart className="w-5 h-5" />
+              </button>
+              <button className="flex-1 border border-gray-700 hover:border-cyan-500/50 hover:bg-cyan-900/10 text-gray-300 py-3 rounded-lg flex items-center justify-center gap-2 transition-all">
+                مقارنة <ArrowRightLeft className="w-5 h-5" />
+              </button>
+            </div>
+          </div>
+
         </div>
       </div>
-
-      {/* قسم المواصفات التقنية */}
-      {features && (
-        <section className="max-w-7xl mx-auto mt-24 border-t border-gray-800 pt-16">
-          <h2 className="text-2xl font-bold mb-10 text-cyan-400">المواصفات التقنية</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {Object.entries(features).map(([key, value]) => (
-              <div key={key} className="bg-gray-900 p-6 rounded-2xl border border-gray-800 hover:border-cyan-500 transition-all">
-                <h4 className="text-gray-400 text-sm mb-2 uppercase">{key}</h4>
-                <p className="text-lg font-semibold">{value as string}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
     </main>
   );
 }
