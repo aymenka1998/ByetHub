@@ -1,4 +1,4 @@
-const rawBaseUrl = process.env.STRAPI_URL || '';
+const rawBaseUrl = process.env.STRAPI_URL || process.env.NEXT_PUBLIC_STRAPI_URL || '';
 const API_TIMEOUT = 10000; // 10 second timeout
 const MAX_RETRIES = 2;
 
@@ -8,11 +8,11 @@ const normalizedBaseUrl = rawBaseUrl
   .replace(/\/admin\/?$/i, '')
   .replace(/\/+$/, '');
 
-if (!normalizedBaseUrl && isServer) {
-  throw new Error('Missing environment variable: STRAPI_URL');
-}
-
 function buildUrl(path: string) {
+  if (!normalizedBaseUrl && isServer) {
+    throw new Error('Missing environment variable: STRAPI_URL or NEXT_PUBLIC_STRAPI_URL');
+  }
+
   const normalizedPath = path.startsWith('/') ? path : `/${path}`;
   return new URL(normalizedPath, normalizedBaseUrl);
 }

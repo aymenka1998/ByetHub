@@ -5,34 +5,43 @@ import { auth } from '@/lib/firebase';
 import { onAuthStateChanged, User } from 'firebase/auth';
 import Link from 'next/link';
 
+// تعريف نوع الحدث الخاص بـ PWA لتجنب استخدام any
+interface BeforeInstallPromptEvent extends Event {
+  prompt: () => void;
+  userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
+}
+
 export default function TrackPage() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
-  const [isAppInstalled, setIsAppInstalled] = useState(false);
+  const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
+
+  // استخدام Lazy Initialization لتجنب خطأ setState داخل useEffect
+  const [isAppInstalled, setIsAppInstalled] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.matchMedia('(display-mode: standalone)').matches;
+    }
+    return false;
+  });
 
   useEffect(() => {
+    // مراقبة حالة تسجيل الدخول
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       setLoading(false);
     });
 
-    // PWA Install Prompt Logic
+    // منطق طلب تثبيت الـ PWA
     const handleBeforeInstallPrompt = (e: Event) => {
       e.preventDefault();
-      setDeferredPrompt(e);
+      setDeferredPrompt(e as BeforeInstallPromptEvent);
     };
 
-    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-
-    // Check if already installed
-    if (window.matchMedia('(display-mode: standalone)').matches) {
-      setIsAppInstalled(true);
-    }
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt as EventListener);
 
     return () => {
       unsubscribe();
-      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt as EventListener);
     };
   }, []);
 
@@ -79,13 +88,15 @@ export default function TrackPage() {
             </p>
           </div>
           
-          {/* Install App Button */}
+          {/* تم استخدام bg-linear-to-r وهو المعيار الجديد في Tailwind */}
           {!isAppInstalled && deferredPrompt && (
             <button
               onClick={handleInstallClick}
-              className="flex items-center gap-2 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 px-6 py-3 rounded-xl font-bold text-sm shadow-[0_0_20px_rgba(34,211,238,0.2)] transition-all"
+              className="flex items-center gap-2 bg-linear-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 px-6 py-3 rounded-xl font-bold text-sm shadow-[0_0_20px_rgba(34,211,238,0.2)] transition-all"
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+              </svg>
               تثبيت التطبيق على هاتفك
             </button>
           )}
@@ -93,7 +104,6 @@ export default function TrackPage() {
 
         <h2 className="text-xl font-bold border-b border-cyan-900/50 pb-4">طلباتي الحالية</h2>
 
-        {/* Mock Order Item */}
         <div className="bg-[#0a1120] border border-cyan-900/30 p-6 rounded-xl space-y-6">
           <div className="flex justify-between items-start border-b border-gray-800 pb-4">
             <div>
@@ -136,7 +146,6 @@ export default function TrackPage() {
             </p>
           </div>
         </div>
-
       </div>
     </main>
   );
