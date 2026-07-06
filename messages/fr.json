@@ -1,7 +1,7 @@
 {
   "metadata": {
     "title": "ByteHub",
-    "description": "Votre destination ultime pour l'assemblage et la conception des PC gaming et stations de travail les plus puissants, fournissant toutes les pièces détachées et accessoires authentiques en Arabie Saoudite"
+    "description": "Votre destination ultime pour l'assemblage et la conception des PC gaming et stations de travail les plus puissants, fournissant toutes les pièces détachées et accessoires authentiques en Algérie"
   },
   "nav": {
     "home": "Accueil",
@@ -18,7 +18,7 @@
     "titleLine1": "Un nouveau niveau de professionnalisme",
     "titleLine2": "Plongez dans les moindres détails",
     "titleLine3": "Des bêtes de jeu vous attendent",
-    "description": "Construisez votre machine de rêve ou choisissez parmi notre sélection de PC pré-assemblés surpuissants prêts pour le gaming et la création de contenu, avec livraison gratuite et garantie authentique de deux ans.",
+    "description": "Construisez votre machine de rêve ou choisissez parmi notre sélection de PC pré-assemblés surpuissants prêts pour le gaming et la création de contenu, avec livraison dans toute l'Algérie et garantie authentique de deux ans.",
     "shopNow": "Achetez maintenant",
     "gamingPcs": "PC Gaming Prêts",
     "availableNow": "RTX 4090 Disponible Maintenant",
@@ -42,8 +42,8 @@
       "description": "Remplacement direct des pièces défectueuses"
     },
     "shipping": {
-      "title": "Livraison Rapide & Sécurisée",
-      "description": "Livraison gratuite pour les commandes supérieures à 50 SAR"
+      "title": "Livraison Rapide dans toute l'Algérie",
+      "description": "Livraison gratuite pour les commandes supérieures à 5 000 DA"
     }
   },
   "categories": {
@@ -60,17 +60,17 @@
     "viewAll": "Voir Tous les Produits",
     "addToCart": "Ajouter au Panier",
     "discount": "RÉD",
-    "sar": "SAR",
+    "sar": "DA",
     "eur": "EUR",
     "usd": "USD",
-    "dzd": "DZD",
-    "oldPrice": "SAR",
+    "dzd": "DA",
+    "oldPrice": "DA",
     "currency": "Devise"
   },
   "footer": {
     "about": {
       "title": "ByteHub",
-      "description": "Votre destination ultime pour l'assemblage et la conception des PC gaming et stations de travail les plus puissants, fournissant toutes les pièces détachées et accessoires authentiques en Arabie Saoudite."
+      "description": "Votre destination ultime pour l'assemblage et la conception des PC gaming et stations de travail les plus puissants, fournissant toutes les pièces détachées et accessoires authentiques en Algérie."
     },
     "quickLinks": {
       "title": "Liens Rapides",
@@ -88,12 +88,12 @@
     },
     "contact": {
       "title": "Contactez-Nous",
-      "phone": "+966 50 000 0000",
-      "email": "kaour485@gmail.com",
-      "address": "Riyad, Quartier Al Olaya, Route du Roi Fahd, Royaume d'Arabie Saoudite"
+      "phone": "+213 550 000 000",
+      "email": "support@bytehub-dz.com",
+      "address": "Alger, Bab Ezzouar, Avenue Mohamed Boudiaf"
     },
     "payment": "Moyens de Paiement Sécurisés",
-    "copyright": "© 2024 ByteHub. Tous droits réservés.",
+    "copyright": "© 2025 ByteHub Algérie. Tous droits réservés.",
     "privacyPolicy": "Politique de Confidentialité",
     "termsConditions": "Conditions Générales",
     "techSupport": "Support Technique"

@@ -129,7 +129,7 @@ export default function Navbar() {
                       } & Record<string, unknown>;
                       const rawImg = data.image?.url || data.images?.[0]?.url;
                       const imageUrl = rawImg ? (rawImg.startsWith('http') ? rawImg : `${STRAPI_URL}${rawImg}`) : '/placeholder.jpg';
-                      const currencyValue = formatCurrency(convertCurrency(data.price, 'SAR', currency), currency, currencyLocale);
+                      const currencyValue = formatCurrency(convertCurrency(data.price, 'DZD', currency), currency, currencyLocale);
                       
                       return (
                         <Link

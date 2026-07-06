@@ -92,7 +92,7 @@ export default function ComparePage() {
                         </Link>
                         
                         <div className="text-2xl font-black text-cyan-400 mt-2 mb-4">
-                          {formatCurrency(convertCurrency(data.price, 'SAR', currency), currency, currencyLocale)}
+                           {formatCurrency(convertCurrency(data.price, 'DZD', currency), currency, currencyLocale)}
                         </div>
                         
                         <div className="w-full px-4">

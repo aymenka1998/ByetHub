@@ -65,7 +65,7 @@ export default function AddToCartButton({ product, className = '' }: AddToCartBu
             onClick={() => setQuantity(Math.max(1, quantity - 1))}
             className="px-5 py-2 hover:bg-cyan-900/30 transition-colors font-bold text-cyan-500 focus:outline-none"
           >
-            -
+            
           </button>
         </div>
       </div>

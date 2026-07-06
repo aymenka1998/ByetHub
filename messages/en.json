@@ -1,7 +1,7 @@
 {
   "metadata": {
     "title": "ByteHub",
-    "description": "Your ultimate destination for building and designing the most powerful gaming PCs and workstations, providing all genuine spare parts and accessories in Saudi Arabia"
+    "description": "Your ultimate destination for building and designing the most powerful gaming PCs and workstations, providing all genuine spare parts and accessories in Algeria"
   },
   "nav": {
     "home": "Home",
@@ -18,7 +18,7 @@
     "titleLine1": "A new level of professionalism",
     "titleLine2": "Immerse yourself in the finest details",
     "titleLine3": "Gaming beasts are waiting for you",
-    "description": "Build your dream machine or choose from our curated selection of beastly pre-built PCs ready for gaming and content creation, with free shipping and a genuine two-year warranty.",
+    "description": "Build your dream machine or choose from our curated selection of beastly pre-built PCs ready for gaming and content creation, with delivery across all of Algeria and a genuine two-year warranty.",
     "shopNow": "Shop Products Now",
     "gamingPcs": "Ready Gaming PCs",
     "availableNow": "RTX 4090 Available Now in Stock",
@@ -42,8 +42,8 @@
       "description": "Direct replacement for defective parts"
     },
     "shipping": {
-      "title": "Fast & Secure Shipping",
-      "description": "Free shipping on orders over 50 SAR"
+      "title": "Fast Shipping Across Algeria",
+      "description": "Free shipping on orders over 5,000 DZD"
     }
   },
   "categories": {
@@ -60,17 +60,17 @@
     "viewAll": "View All Products",
     "addToCart": "Add to Cart",
     "discount": "OFF",
-    "sar": "SAR",
+    "sar": "DZD",
     "eur": "EUR",
     "usd": "USD",
     "dzd": "DZD",
-    "oldPrice": "SAR",
+    "oldPrice": "DZD",
     "currency": "Currency"
   },
   "footer": {
     "about": {
       "title": "ByteHub",
-      "description": "Your ultimate destination for building and designing the most powerful gaming PCs and workstations, providing all genuine spare parts and accessories in Saudi Arabia."
+      "description": "Your ultimate destination for building and designing the most powerful gaming PCs and workstations, providing all genuine spare parts and accessories in Algeria."
     },
     "quickLinks": {
       "title": "Quick Links",
@@ -88,12 +88,12 @@
     },
     "contact": {
       "title": "Contact Us",
-      "phone": "+966 50 000 0000",
-      "email": "kaour485@gmail.com",
-      "address": "Riyadh, Al Olaya District, King Fahd Road, Kingdom of Saudi Arabia"
+      "phone": "+213 550 000 000",
+      "email": "support@bytehub-dz.com",
+      "address": "Algiers, Bab Ezzouar District, Mohamed Boudiaf Avenue"
     },
     "payment": "Secure Payment Methods",
-    "copyright": "© 2024 ByteHub. All rights reserved.",
+    "copyright": "© 2025 ByteHub Algeria. All rights reserved.",
     "privacyPolicy": "Privacy Policy",
     "termsConditions": "Terms & Conditions",
     "techSupport": "Tech Support"

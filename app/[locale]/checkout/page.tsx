@@ -32,10 +32,10 @@ export default function CheckoutPage() {
   const params = useParams();
   const locale = (params?.locale as string) || 'ar';
 
-  const SHIPPING_COST = 25;
+  const SHIPPING_COST = 500; // تكلفة الشحن بالدينار الجزائري
   const grandTotal = total + SHIPPING_COST;
   const formatPrice = (amount: number) =>
-    formatCurrency(convertCurrency(amount, 'SAR', currency), currency, currencyLocale);
+    formatCurrency(convertCurrency(amount, 'DZD', currency), currency, currencyLocale);
 
   const [formData, setFormData] = useState({
     name: '',

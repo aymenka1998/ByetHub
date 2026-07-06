@@ -15,7 +15,7 @@ export default function Hero() {
       {/* Promo Banner */}
       <div className="bg-linear-to-r from-blue-600 to-violet-700 text-center py-2.5 px-4 text-sm font-medium text-white/90">
         🎮 {t('promoBanner')}
-        <Link href="/shop/sale" className="ml-2 text-white text-xs underline underline-offset-2">
+        <Link href="/shop" className="ml-2 text-white text-xs underline underline-offset-2">
           {t('promoLink')} →
         </Link>
       </div>

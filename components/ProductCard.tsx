@@ -93,6 +93,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           src={imageUrl}
           alt={imageAlt}
           fill
+          loading="lazy"
           className="object-cover group-hover:scale-105 transition-transform duration-500"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
@@ -130,11 +131,11 @@ export default function ProductCard({ product }: ProductCardProps) {
         {/* Price row */}
         <div className="flex items-center gap-3 mb-4 justify-start">
           <span className="text-lg font-bold text-white">
-            {currencySymbol} {formatCurrency(convertCurrency(price, 'SAR', currency), currency, currencyLocale)}
+            {currencySymbol} {formatCurrency(convertCurrency(price, 'DZD', currency), currency, currencyLocale)}
           </span>
           {originalPrice && originalPrice > price && (
             <span className="text-sm text-white/30 line-through">
-              {currencySymbol} {formatCurrency(convertCurrency(originalPrice, 'SAR', currency), currency, currencyLocale)}
+              {currencySymbol} {formatCurrency(convertCurrency(originalPrice, 'DZD', currency), currency, currencyLocale)}
             </span>
           )}
         </div>

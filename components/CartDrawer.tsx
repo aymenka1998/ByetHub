@@ -14,7 +14,7 @@ interface CartDrawerProps {
 
 export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
   const { items, removeItem, total } = useCart();
-  const t = useTranslations('products');
+  const t = useTranslations('cart');
   const { country } = useCountry();
   const currency = getCurrencyByCountry(country) as CurrencyCode;
   const currencyLocale = getLocaleByCountry(country);
@@ -25,7 +25,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
     return url.startsWith('http') || url.startsWith('/') ? url : `${STRAPI_URL}${url}`;
   }
 
-  const currencyValue = (price: number) => formatCurrency(convertCurrency(price, 'SAR', currency), currency, currencyLocale);
+  const currencyValue = (price: number) => formatCurrency(convertCurrency(price, 'DZD', currency), currency, currencyLocale);
 
   return (
     <>
@@ -33,26 +33,26 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
         <div className="fixed inset-0 bg-black/50 z-50 transition-opacity" onClick={onClose} />
       )}
       
-      <div className={`fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-2xl z-50 transform transition-transform duration-300 text-right ${
+      <div className={`fixed top-0 right-0 h-full w-full max-w-md bg-[#0D1526] border-l border-white/[0.08] shadow-2xl z-50 transform transition-transform duration-300 text-right ${
         isOpen ? 'translate-x-0' : 'translate-x-full'
       }`} dir="rtl">
         <div className="p-6 h-full flex flex-col">
           
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold text-gray-900">سلة التسوق</h2>
-            <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-full transition-colors text-gray-500 hover:text-black">
+            <h2 className="text-2xl font-bold text-white">{t('title')}</h2>
+            <button onClick={onClose} className="p-2 hover:bg-white/[0.07] rounded-full transition-colors text-white/50 hover:text-white">
               ✕
             </button>
           </div>
 
           {items.length === 0 ? (
-            <div className="flex-1 flex flex-col items-center justify-center text-gray-500 gap-4">
-              <svg className="w-16 h-16 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="flex-1 flex flex-col items-center justify-center text-white/40 gap-4">
+              <svg className="w-16 h-16 text-white/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
               </svg>
-              <span className="text-lg">السلة فارغة حالياً</span>
-              <button onClick={onClose} className="mt-2 text-blue-600 font-semibold hover:underline">
-                ابدأ التسوق الآن
+              <span className="text-lg">{t('empty')}</span>
+              <button onClick={onClose} className="mt-2 text-cyan-400 font-semibold hover:underline">
+                {t('checkout')}
               </button>
             </div>
           ) : (
@@ -74,9 +74,9 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                   const imageUrl = resolveImageUrl(typeof rawImg === 'string' ? rawImg : undefined);
 
                   return (
-                    <div key={itemId} className="flex gap-4 p-4 bg-gray-50 rounded-xl hover:bg-gray-100/75 transition-colors border border-gray-100">
+                    <div key={itemId} className="flex gap-4 p-4 bg-white/[0.04] rounded-xl hover:bg-white/[0.07] transition-colors border border-white/[0.06]">
                       
-                      <div className="relative w-20 h-20 rounded-lg overflow-hidden shrink-0 bg-white border border-gray-200">
+                      <div className="relative w-20 h-20 rounded-lg overflow-hidden shrink-0 bg-white/[0.05] border border-white/[0.08]">
                         <Image
                           src={imageUrl}
                           alt={name}
@@ -88,23 +88,23 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                       
                       <div className="flex flex-col justify-between flex-1">
                         <div>
-                          <h3 className="font-medium text-gray-900 line-clamp-1 hover:text-blue-600 transition-colors">
+                          <h3 className="font-medium text-white line-clamp-1 hover:text-cyan-400 transition-colors">
                             {name}
                           </h3>
-                          <p className="text-blue-600 font-bold mt-1">
+                          <p className="text-cyan-400 font-bold mt-1">
                             {currencyValue(price)} × {itemQuantity}
                           </p>
                         </div>
                         
                         <div className="flex justify-between items-center mt-2">
-                          <span className="text-xs text-gray-400">
+                          <span className="text-xs text-white/30">
                             الإجمالي: {currencyValue(price * itemQuantity)}
                           </span>
                           <button 
                            
                              onClick={() => removeItem(itemId as number)} // أو itemId as string بناءً على معرّفات الـ Context لديك
-                            className="text-red-500 text-xs font-semibold hover:text-red-700 transition-colors"
-                            >
+                           className="text-red-400 text-xs font-semibold hover:text-red-300 transition-colors"
+                             >
                              حذف
                            </button>
                         
@@ -116,10 +116,10 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                 })}
               </div>
 
-              <div className="border-t border-gray-100 pt-4 mt-4">
-                <div className="flex justify-between text-xl font-bold mb-4 text-gray-900">
-                  <span>المجموع:</span>
-                  <span className="text-blue-600">{currencyValue(total)}</span>
+              <div className="border-t border-white/[0.08] pt-4 mt-4">
+                <div className="flex justify-between text-xl font-bold mb-4 text-white">
+                  <span>{t('total')}:</span>
+                  <span className="text-cyan-400">{currencyValue(total)}</span>
                 </div>
                 <Link
                   href="/checkout"

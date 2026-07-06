@@ -11,6 +11,6 @@ export default function CurrencyPrice({ amount = 0 }: CurrencyPriceProps) {
   const { country } = useCountry();
   const currency = getCurrencyByCountry(country) as CurrencyCode;
   const currencyLocale = getLocaleByCountry(country);
-  const converted = convertCurrency(amount, 'SAR', currency);
+  const converted = convertCurrency(amount, 'DZD', currency);
   return <>{formatCurrency(converted, currency, currencyLocale)}</>;
 }
