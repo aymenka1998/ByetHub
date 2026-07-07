@@ -179,12 +179,6 @@ export default function Navbar() {
             <CountrySwitcher />
             <LanguageSwitcher />
 
-            {/* Account icon */}
-            <button className="p-2 hover:bg-white/[0.07] rounded-xl transition-colors" aria-label="حساب المستخدم">
-              <svg className="w-5 h-5 text-white/60 hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-              </svg>
-            </button>
 
             {/* Compare */}
             <Link 
