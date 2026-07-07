@@ -13,19 +13,19 @@ interface CompareContextType {
 const CompareContext = createContext<CompareContextType | undefined>(undefined);
 
 export function CompareProvider({ children }: { children: React.ReactNode }) {
-  const [compareItems, setCompareItems] = useState<StrapiDataItem<Product>[]>([]);
-
-  // Load from local storage
-  useEffect(() => {
-    const saved = localStorage.getItem('compareItems');
-    if (saved) {
-      try {
-        setCompareItems(JSON.parse(saved));
-      } catch (e) {
-        console.error('Failed to parse compare items', e);
+  const [compareItems, setCompareItems] = useState<StrapiDataItem<Product>[]>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('compareItems');
+      if (saved) {
+        try {
+          return JSON.parse(saved);
+        } catch (e) {
+          console.error('Failed to parse compare items', e);
+        }
       }
     }
-  }, []);
+    return [];
+  });
 
   // Save to local storage
   useEffect(() => {
