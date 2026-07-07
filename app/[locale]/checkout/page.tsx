@@ -26,6 +26,8 @@ export default function CheckoutPage() {
   const currency = getCurrencyByCountry(country) as CurrencyCode;
   const currencyLocale = getLocaleByCountry(country);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [orderNumber, setOrderNumber] = useState<number | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -82,15 +84,35 @@ export default function CheckoutPage() {
     e.preventDefault();
     if (!validateForm()) return;
 
-    const paymentApiKey = process.env.NEXT_PUBLIC_PAYMENT_GATEWAY_API_KEY;
-    if (paymentApiKey && formData.paymentMethod === 'card') {
-      console.log('إعادة التوجيه لبوابة الدفع باستخدام المفتاح:', paymentApiKey);
-    }
+    setIsSubmitting(true);
+    setSubmitError(null);
 
-    setOrderNumber(Math.floor(100000 + Math.random() * 900000));
-    setIsSubmitted(true);
-    setShowAuthModal(true);
-    items.forEach((item) => removeItem(item.id));
+    try {
+      const response = await fetch('/api/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...formData,
+          totalAmount: grandTotal,
+          items: items,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        throw new Error(data.message || 'حدث خطأ أثناء إرسال الطلب');
+      }
+
+      setOrderNumber(data.data?.data?.id || Math.floor(100000 + Math.random() * 900000));
+      setIsSubmitted(true);
+      setShowAuthModal(true);
+      items.forEach((item) => removeItem(item.id));
+    } catch (err) {
+      setSubmitError(err instanceof Error ? err.message : 'فشل إرسال الطلب. يرجى المحاولة لاحقاً.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   /* ─── Success Screen ─── */
@@ -364,13 +386,21 @@ export default function CheckoutPage() {
               </div>
             )}
 
+            {/* Submit Error */}
+            {submitError && (
+              <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm font-bold text-center">
+                {submitError}
+              </div>
+            )}
+
             {/* Submit */}
             <button
               type="submit"
-              className="w-full py-4 rounded-xl font-bold text-white text-lg transition-all active:scale-95 shadow-[0_0_20px_rgba(59,130,246,0.35)] hover:shadow-[0_0_35px_rgba(59,130,246,0.55)]"
+              disabled={isSubmitting}
+              className="w-full py-4 rounded-xl font-bold text-white text-lg transition-all active:scale-95 shadow-[0_0_20px_rgba(59,130,246,0.35)] hover:shadow-[0_0_35px_rgba(59,130,246,0.55)] disabled:opacity-50 disabled:cursor-not-allowed"
               style={{ background: 'linear-gradient(135deg, #2563eb, #1d4ed8)' }}
             >
-              إكمال الطلب — {formatPrice(grandTotal)}
+              {isSubmitting ? 'جاري إرسال الطلب...' : `إكمال الطلب — ${formatPrice(grandTotal)}`}
             </button>
           </form>
         </div>
