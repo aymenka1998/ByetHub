@@ -123,7 +123,7 @@ export default function ProductCard({ product }: ProductCardProps) {
         )}
 
         <Link href={`/product/${slug}`}>
-          <h3 className="font-bold text-base text-white/90 mb-3 group-hover:text-white transition-colors line-clamp-1 tracking-wide">
+          <h3 className="font-bold text-base text-white/90 mb-3 group-hover:text-white transition-colors line-clamp-2 tracking-wide" title={name}>
             {name}
           </h3>
         </Link>

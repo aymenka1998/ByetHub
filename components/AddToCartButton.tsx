@@ -48,7 +48,7 @@ export default function AddToCartButton({ product, className = '' }: AddToCartBu
   return (
     <div className={`space-y-6 w-full ${className}`.trim()} dir="rtl">
       <div className="flex items-center justify-between">
-        <label className="font-semibold text-gray-300">الكمية:</label>
+        <label className="font-semibold text-gray-300">{t('quantity')}</label>
         <div className="flex items-center border border-cyan-900/50 rounded bg-[#060b18] overflow-hidden shadow-sm">
           <button 
             type="button"
@@ -74,7 +74,7 @@ export default function AddToCartButton({ product, className = '' }: AddToCartBu
         onClick={handleAddToCart}
         className="w-full bg-[#4F84F6] text-white py-4 rounded hover:bg-[#3f6edb] transition-all font-bold text-lg flex items-center justify-center gap-3 shadow-[0_0_15px_rgba(79,132,246,0.3)] active:scale-[0.98]"
       >
-        <span>{t('addToCart')} - {formatCurrency(convertCurrency(price * quantity, 'SAR', currency), currency, currencyLocale)}</span>
+        <span>{t('addToCart')} - {formatCurrency(convertCurrency(price * quantity, 'DZD', currency), currency, currencyLocale)}</span>
         <ShoppingCart className="w-6 h-6" />
       </button>
     </div>

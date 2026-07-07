@@ -1,4 +1,5 @@
 import { getProducts, getCategories } from '@/lib/products';
+import { getTranslations } from 'next-intl/server';
 import ProductCard from '@/components/ProductCard';
 import CategoryFilter from '@/components/CategoryFilter';
 
@@ -13,6 +14,7 @@ export const revalidate = 0;
 export default async function ShopPage(props: ShopPageProps) {
   const { category, q } = await props.searchParams;
   const { locale } = await props.params;
+  const t = await getTranslations({ locale, namespace: 'products' });
 
   const categoriesResponse = await getCategories(locale);
   const productsResponse = await getProducts(locale, category, q);
@@ -27,10 +29,10 @@ export default async function ShopPage(props: ShopPageProps) {
 
   let pageTitle = activeCategory
     ? activeCategory.attributes.name
-    : "تصفح كافة المنتجات";
+    : t('allProductsTitle');
 
   if (q) {
-    pageTitle = locale === 'ar' ? `نتائج البحث عن: "${q}"` : `Search results for: "${q}"`;
+    pageTitle = `${t('searchResult')} "${q}"`;
   }
 
   return (
@@ -41,7 +43,7 @@ export default async function ShopPage(props: ShopPageProps) {
 
       {products.length === 0 ? (
         <div className="text-center py-12 text-gray-500">
-          لا توجد منتجات متوفرة في هذا القسم حالياً.
+          {t('noProducts')}
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

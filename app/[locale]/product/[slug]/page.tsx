@@ -1,4 +1,5 @@
 import { BlocksRenderer, type BlocksContent } from '@strapi/blocks-react-renderer';
+import { getTranslations } from 'next-intl/server';
 import { getProductBySlug } from '@/lib/products';
 import type { Product, StrapiDataItem } from '@/lib/types';
 import { notFound } from 'next/navigation';
@@ -34,6 +35,7 @@ function resolveImageUrl(imagePath?: string): string {
 
 export default async function ProductPage(props: PageProps) {
   const { slug, locale } = await props.params;
+  const t = await getTranslations({ locale, namespace: 'products' });
   const response = await getProductBySlug(locale, slug);
   const productItem = response?.data?.[0] as StrapiDataItem<Product> | undefined;
   const data = productItem?.attributes ?? (productItem as unknown as Product);
@@ -89,7 +91,7 @@ export default async function ProductPage(props: PageProps) {
             <div className="p-8 relative flex items-center justify-center min-h-[450px]">
               {hasDiscount && (
                 <div className="absolute top-4 right-4 bg-red-500/90 text-white px-6 py-2 rounded text-xl font-bold z-10 shadow-lg" style={{ clipPath: 'polygon(10% 0, 100% 0, 90% 100%, 0% 100%)' }}>
-                  خصم {discountPercent}%
+                  {t('discountBadge', { percent: discountPercent })}
                 </div>
               )}
               <Image
@@ -123,7 +125,7 @@ export default async function ProductPage(props: PageProps) {
           {/* Top row: Tag and Stars */}
           <div className="flex justify-between w-full items-center">
              <div className="text-cyan-400 border border-cyan-400/30 bg-cyan-900/20 px-4 py-1.5 rounded text-sm font-mono tracking-widest flex-shrink-0">
-               {sku ? sku : 'منتج تقني'}
+               {sku ? sku : t('techProduct')}
              </div>
              <div className="flex gap-1.5 text-cyan-400">
                {[...Array(5)].map((_, i) => (
