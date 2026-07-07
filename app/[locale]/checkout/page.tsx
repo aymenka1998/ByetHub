@@ -275,30 +275,43 @@ export default function CheckoutPage() {
                   value: 'cod',
                   title: 'الدفع عند الاستلام',
                   desc: 'ادفع نقداً عند استلام طلبك',
+                  isDisabled: false
                 },
                 {
                   value: 'card',
                   title: 'بطاقة CIB / بطاقة ائتمان',
                   desc: 'ادفع بأمان عبر بوابتنا الرقمية',
+                  isDisabled: true,
+                  badge: 'قريباً'
                 },
               ].map((opt) => (
                 <label
                   key={opt.value}
-                  className={`flex items-center gap-3 p-4 rounded-xl border cursor-pointer transition-all ${
-                    formData.paymentMethod === opt.value
-                      ? 'border-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.2)]'
-                      : 'border-white/10 hover:border-white/20'
+                  className={`flex items-center gap-3 p-4 rounded-xl border transition-all ${
+                    opt.isDisabled 
+                      ? 'opacity-60 cursor-not-allowed border-white/5 bg-white/5' 
+                      : formData.paymentMethod === opt.value
+                      ? 'border-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.2)] cursor-pointer'
+                      : 'border-white/10 hover:border-white/20 cursor-pointer'
                   }`}
-                  style={{ background: formData.paymentMethod === opt.value ? 'rgba(37,99,235,0.08)' : 'rgba(255,255,255,0.03)' }}
+                  style={{ background: formData.paymentMethod === opt.value && !opt.isDisabled ? 'rgba(37,99,235,0.08)' : 'rgba(255,255,255,0.03)' }}
                 >
                   <input
                     type="radio" name="paymentMethod" value={opt.value}
-                    checked={formData.paymentMethod === opt.value}
+                    checked={formData.paymentMethod === opt.value && !opt.isDisabled}
                     onChange={handleInputChange}
+                    disabled={opt.isDisabled}
                     className="w-4 h-4 accent-blue-500"
                   />
-                  <div className="text-right">
-                    <p className="font-bold text-sm text-white">{opt.title}</p>
+                  <div className="text-right flex-1">
+                    <div className="flex items-center justify-between">
+                      <p className="font-bold text-sm text-white">{opt.title}</p>
+                      {opt.badge && (
+                        <span className="text-[10px] font-bold bg-white/10 text-white/70 px-2 py-0.5 rounded-md">
+                          {opt.badge}
+                        </span>
+                      )}
+                    </div>
                     <p className="text-xs text-gray-500 mt-0.5">{opt.desc}</p>
                   </div>
                 </label>
