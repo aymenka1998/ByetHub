@@ -15,11 +15,14 @@ export async function POST(request: Request) {
 
     // Map cart items to Strapi repeatable component
     // Note: products relation in Strapi v4 expects an array of IDs for manyWay relation
-    const orderItems = (body.items || []).map((item: any) => ({
-      products: [Number(item.id)], 
-      quantite: Number(item.quantity),
-      price: Number(item.price)
-    }));
+    const orderItems = (body.items || []).map((item: any) => {
+      const itemPrice = item.price ?? item.attributes?.price ?? 0;
+      return {
+        products: item.id ? [Number(item.id)] : [], 
+        quantite: Number(item.quantity),
+        price: Number(itemPrice)
+      };
+    });
 
     // In Strapi v4, payload data must be inside a `data` object
     const payload = {
