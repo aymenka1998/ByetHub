@@ -17,8 +17,10 @@ export async function POST(request: Request) {
     // Note: products relation in Strapi v4 expects an array of IDs for manyWay relation
     const orderItems = (body.items || []).map((item: any) => {
       const itemPrice = item.price ?? item.attributes?.price ?? 0;
+      
       return {
-        products: item.id ? [Number(item.id)] : [], 
+        // Use Strapi v4 strict relation syntax for components
+        products: item.id ? { set: [Number(item.id)] } : { set: [] }, 
         quantite: Number(item.quantity),
         price: Number(itemPrice)
       };
