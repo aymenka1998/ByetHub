@@ -30,7 +30,6 @@ export default function ProductCard({ product }: ProductCardProps) {
   const { addItem } = useCart();
   const currency = getCurrencyByCountry(country) as CurrencyCode;
   const currencyLocale = getLocaleByCountry(country);
-  const currencySymbol = CURRENCY_SYMBOLS[currency];
 
   const castedProduct = product as Record<string, unknown>;
   const rawData = castedProduct?.attributes ? castedProduct.attributes : castedProduct;
@@ -131,11 +130,11 @@ export default function ProductCard({ product }: ProductCardProps) {
         {/* Price row */}
         <div className="flex items-center gap-3 mb-4 justify-start">
           <span className="text-lg font-bold text-white">
-            {currencySymbol} {formatCurrency(convertCurrency(price, 'DZD', currency), currency, currencyLocale)}
+            {formatCurrency(convertCurrency(price, 'DZD', currency), currency, currencyLocale).replace('د.ج', t('dzd'))}
           </span>
           {originalPrice && originalPrice > price && (
             <span className="text-sm text-white/30 line-through">
-              {currencySymbol} {formatCurrency(convertCurrency(originalPrice, 'DZD', currency), currency, currencyLocale)}
+              {formatCurrency(convertCurrency(originalPrice, 'DZD', currency), currency, currencyLocale).replace('د.ج', t('dzd'))}
             </span>
           )}
         </div>
