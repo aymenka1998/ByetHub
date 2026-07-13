@@ -1,7 +1,8 @@
 import { BlocksRenderer, type BlocksContent } from '@strapi/blocks-react-renderer';
 import { getTranslations } from 'next-intl/server';
-import { getProductBySlug } from '@/lib/products';
+import { getProductBySlug, getProducts } from '@/lib/products';
 import type { Product, StrapiDataItem } from '@/lib/types';
+import ProductCard from '@/components/ProductCard';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import AddToCartButton from '@/components/AddToCartButton';
@@ -58,6 +59,26 @@ export default async function ProductPage(props: PageProps) {
   const mainImageUrl = resolveImageUrl(
     firstImageUrl ?? firstImageDirectUrl ?? imageDirectUrl
   );
+
+  const rawCategory = data.category as Record<string, unknown> | string | undefined;
+  const categorySlug =
+    typeof rawCategory === 'string'
+      ? rawCategory
+      : typeof rawCategory === 'object' && rawCategory !== null
+        ? (((rawCategory as any).data?.attributes?.slug ?? (rawCategory as any).slug ?? (rawCategory as any).name ?? (rawCategory as any).title ?? '') as string)
+        : '';
+
+  let relatedProducts: any[] = [];
+  if (categorySlug) {
+    try {
+      const relatedRes = await getProducts(locale, categorySlug);
+      relatedProducts = (relatedRes?.data || [])
+        .filter((p: any) => p.id !== productItem.id && (p.attributes?.slug || p.slug) !== slug)
+        .slice(0, 4);
+    } catch (e) {
+      console.warn('Could not fetch related products:', e);
+    }
+  }
 
   return (
     <main className="min-h-screen relative text-white overflow-hidden py-16" dir="rtl">
@@ -177,6 +198,22 @@ export default async function ProductPage(props: PageProps) {
 
         </div>
       </div>
+      
+      {/* Related Products Section */}
+      {relatedProducts.length > 0 && (
+        <div className="max-w-[1400px] w-full mx-auto px-6 mt-24 z-10 relative">
+          <div className="flex items-center justify-between mb-8 border-b border-cyan-900/50 pb-4">
+            <h2 className="text-3xl font-bold text-white">
+              {t('relatedProducts')}
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {relatedProducts.map((p: any) => (
+              <ProductCard key={p.id} product={p} />
+            ))}
+          </div>
+        </div>
+      )}
     </main>
   );
 }
