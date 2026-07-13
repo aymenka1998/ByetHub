@@ -130,11 +130,11 @@ export default function ProductCard({ product }: ProductCardProps) {
         {/* Price row */}
         <div className="flex items-center gap-3 mb-4 justify-start">
           <span className="text-lg font-bold text-white">
-            {formatCurrency(convertCurrency(price, 'DZD', currency), currency, currencyLocale).replace('د.ج', t('dzd'))}
+            {formatCurrency(convertCurrency(price, 'DZD', currency), currency, currencyLocale)}
           </span>
           {originalPrice && originalPrice > price && (
             <span className="text-sm text-white/30 line-through">
-              {formatCurrency(convertCurrency(originalPrice, 'DZD', currency), currency, currencyLocale).replace('د.ج', t('dzd'))}
+              {formatCurrency(convertCurrency(originalPrice, 'DZD', currency), currency, currencyLocale)}
             </span>
           )}
         </div>
