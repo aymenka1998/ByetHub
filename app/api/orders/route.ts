@@ -13,23 +13,50 @@ export async function POST(request: Request) {
     // Generate random order number
     const orderNumber = `ORD-${Math.floor(100000 + Math.random() * 900000)}`;
 
-    // Map cart items to Strapi repeatable component
-    // Note: products relation in Strapi v4 expects an array of IDs for manyWay relation
-    const orderItems = (body.items || []).map((item: any) => {
-      const itemPrice = item.price ?? item.attributes?.price ?? 0;
+    // 1. Validate cart items
+    const clientItems = body.items || [];
+    if (!clientItems || clientItems.length === 0) {
+      throw new Error('السلة فارغة.');
+    }
+
+    // 2. Fetch real products from Strapi securely to prevent price manipulation
+    const productIds = clientItems.map((i: any) => Number(i.id)).filter((id: number) => !isNaN(id));
+    const queryParams = productIds.map((id: number) => `filters[id][$in]=${id}`).join('&');
+    
+    // Use the backend fetchAPI to get authentic prices
+    const productsRes = await fetchAPI<any>(`/products?${queryParams}`);
+    const realProducts = productsRes?.data || [];
+
+    let calculatedTotal = 0;
+
+    // 3. Map order items with real prices from database
+    const orderItems = clientItems.map((item: any) => {
+      const productId = Number(item.id);
+      const quantity = Number(item.quantity) || 1;
       
+      const realProduct = realProducts.find((p: any) => p.id === productId);
+      if (!realProduct) {
+        throw new Error(`المنتج رقم ${productId} غير موجود أو تم حذفه.`);
+      }
+
+      const realPrice = Number(realProduct.attributes.price) || 0;
+      calculatedTotal += realPrice * quantity;
+
       return {
         // Use Strapi v4 strict relation syntax for components
-        products: item.id ? { set: [Number(item.id)] } : { set: [] }, 
-        quantite: Number(item.quantity),
-        price: Number(itemPrice)
+        products: { set: [productId] }, 
+        quantite: quantity,
+        price: realPrice // Save the unit price at time of purchase
       };
     });
+
+    const SHIPPING_COST = 500;
+    const finalTotal = calculatedTotal + SHIPPING_COST;
 
     // In Strapi v4, payload data must be inside a `data` object
     const payload = {
       data: {
-        total: Number(body.totalAmount),
+        total: finalTotal,
         statu: 'pending', // Make sure this matches one of the Enum values in Strapi!
         orderNumber: orderNumber,
         shipping: 500,
@@ -55,13 +82,12 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ success: true, data: response });
   } catch (error) {
-    console.error('Failed to create order in Strapi:', error);
-    // Return the EXACT Strapi error message so the user can see which field is wrong
-    const errorMsg = error instanceof Error ? error.message : String(error);
+    console.error('Failed to create order securely:', error);
+    // Return a generic user-friendly message to prevent internal data leakage
     return NextResponse.json(
       { 
         success: false, 
-        message: `Strapi Error: ${errorMsg}`
+        message: 'حدث خطأ أثناء معالجة الطلب، يرجى المحاولة لاحقاً أو التواصل مع الدعم.'
       },
       { status: 500 }
     );
