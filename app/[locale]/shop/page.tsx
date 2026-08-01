@@ -1,5 +1,7 @@
-import { getProducts } from '@/lib/products';
-import PCBuilder from '@/components/PCBuilder';
+import { getProducts, getCategories } from '@/lib/products';
+import { getTranslations } from 'next-intl/server';
+import ProductCard from '@/components/ProductCard';
+import CategoryFilter from '@/components/CategoryFilter';
 
 interface ShopPageProps {
   params: Promise<{ locale: string }>;
@@ -9,66 +11,47 @@ interface ShopPageProps {
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
-// Map build step slugs to Strapi category slugs
-const BUILD_CATEGORIES = [
-  'processeurs',
-  'cartes-graphiques',
-  'ram',
-  'stockage',
-  'boitiers',
-  'alimentations',
-  'refroidissement',
-];
-
-const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL ?? '';
-
-function resolveImage(product: any): string {
-  const attrs = product?.attributes ?? product;
-  const images = attrs?.images;
-  const image = attrs?.image;
-
-  // Try images array first (Strapi v4 format)
-  const firstFromArray =
-    images?.data?.[0]?.attributes?.url ??
-    (Array.isArray(images) ? images[0]?.url ?? images[0]?.attributes?.url : undefined);
-
-  // Then single image
-  const fromSingle = image?.data?.attributes?.url ?? image?.url ?? image?.attributes?.url;
-
-  const raw = firstFromArray ?? fromSingle;
-  if (!raw) return '/placeholder.jpg';
-  if (raw.startsWith('http')) return raw;
-  return `${STRAPI_URL}${raw}`;
-}
-
 export default async function ShopPage(props: ShopPageProps) {
+  const { category, q } = await props.searchParams;
   const { locale } = await props.params;
+  const t = await getTranslations({ locale, namespace: 'products' });
 
-  // Fetch products for every build category in parallel
-  const results = await Promise.allSettled(
-    BUILD_CATEGORIES.map(cat => getProducts(locale, cat))
+  const categoriesResponse = await getCategories(locale);
+  const productsResponse = await getProducts(locale, category, q);
+
+  const categories = (categoriesResponse?.data || []).filter(
+    (cat): cat is typeof cat & { attributes: NonNullable<typeof cat.attributes> } =>
+      cat?.attributes != null
   );
+  const products = productsResponse?.data || [];
 
-  const productsByCategory: Record<string, any[]> = {};
+  const activeCategory = categories.find(cat => cat.attributes.slug === category);
 
-  BUILD_CATEGORIES.forEach((cat, idx) => {
-    const result = results[idx];
-    if (result.status === 'fulfilled') {
-      productsByCategory[cat] = (result.value?.data || []).map((item: any) => {
-        const attrs = item?.attributes ?? item;
-        return {
-          id: item.id,
-          name: attrs.name ?? '',
-          price: attrs.price ?? 0,
-          slug: attrs.slug ?? '',
-          imageUrl: resolveImage(item),
-          categorySlug: cat,
-        };
-      });
-    } else {
-      productsByCategory[cat] = [];
-    }
-  });
+  let pageTitle = activeCategory
+    ? activeCategory.attributes.name
+    : t('allProductsTitle');
 
-  return <PCBuilder productsByCategory={productsByCategory} />;
+  if (q) {
+    pageTitle = `${t('searchResult')} "${q}"`;
+  }
+
+  return (
+    <main className="max-w-7xl mx-auto px-4 py-12 text-right" dir="rtl">
+      <h1 className="text-3xl font-bold mb-8">{pageTitle}</h1>
+
+      <CategoryFilter categories={categories} activeCategory={category} />
+
+      {products.length === 0 ? (
+        <div className="text-center py-12 text-gray-500">
+          {t('noProducts')}
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {products.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
+      )}
+    </main>
+  );
 }
